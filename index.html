@@ -4,532 +4,309 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Voxa Store</title>
+
   <style>
     :root{
-      --bg:#0b1220; --panel2:#0c162b; --text:#eaf0ff; --muted:#a9b7d7;
-      --brand:#4aa3ff; --ok:#29d17d; --warn:#ffcc66; --danger:#ff5c7a;
-      --border:rgba(255,255,255,.08); --shadow:0 18px 50px rgba(0,0,0,.45); --radius:18px;
+      --bg:#0b1220; --panel:#0c162b; --text:#eaf0ff; --muted:#a9b7d7;
+      --brand:#4aa3ff; --ok:#29d17d; --danger:#ff5c7a;
+      --border:rgba(255,255,255,.08); --radius:18px;
     }
     *{box-sizing:border-box}
     body{
-      margin:0; font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
-      background: radial-gradient(1200px 600px at 80% -10%, rgba(74,163,255,.25), transparent 60%),
-                  radial-gradient(900px 500px at 20% 0%, rgba(41,209,125,.16), transparent 55%),
-                  var(--bg);
-      color:var(--text); min-height:100vh;
+      margin:0;
+      font-family: system-ui, Tahoma, Arial;
+      background: var(--bg);
+      color:var(--text);
+      min-height:100vh;
     }
-    .app{display:grid; grid-template-columns:320px 1fr; min-height:100vh}
+
+    .app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
     aside{
-      position:sticky; top:0; height:100vh; padding:18px;
-      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent 40%), var(--panel2);
+      background:var(--panel);
+      padding:16px;
       border-left:1px solid var(--border);
     }
-    main{padding:24px 24px 40px}
+    main{padding:24px}
 
-    .topbar{display:none; position:sticky; top:0; z-index:10; padding:14px 16px;
-      background: rgba(11,18,32,.7); backdrop-filter: blur(10px); border-bottom:1px solid var(--border);
-    }
-    .burger{border:1px solid var(--border); background: rgba(255,255,255,.04); color:var(--text);
-      border-radius:14px; padding:10px 12px; cursor:pointer;
-    }
-    .brandline{display:flex; gap:10px; align-items:center; justify-content:space-between}
-    .brandline .title{font-weight:900}
-
-    @media (max-width:980px){
-      .app{grid-template-columns:1fr}
-      aside{
-        position:fixed; inset:0; height:auto; width:min(92vw,360px);
-        transform: translateX(110%); transition:.25s ease; z-index:50;
-        border-left:none; border-right:1px solid var(--border);
-      }
-      aside.open{transform: translateX(0)}
-      .overlay{position:fixed; inset:0; background: rgba(0,0,0,.55);
-        z-index:40; opacity:0; pointer-events:none; transition:.2s ease;
-      }
-      .overlay.show{opacity:1; pointer-events:auto}
-      .topbar{display:block}
-      main{padding:18px 16px 30px}
-    }
+    h1,h2,h3{margin:0}
+    p{color:var(--muted);line-height:1.7}
 
     .logo{
-      display:flex; gap:12px; align-items:center; padding:14px;
-      border:1px solid var(--border); border-radius: var(--radius);
-      background: rgba(255,255,255,.04); box-shadow: var(--shadow);
-    }
-    .badge{
-      width:44px; height:44px; border-radius:14px;
-      background: linear-gradient(135deg, rgba(74,163,255,.9), rgba(41,209,125,.7));
-      display:grid; place-items:center; font-weight:900;
-    }
-    .logo h1{margin:0; font-size:16px}
-    .logo p{margin:3px 0 0; color:var(--muted); font-size:12px; line-height:1.6}
-
-    nav{margin-top:16px; display:flex; flex-direction:column; gap:10px}
-    .navbtn{
-      display:flex; gap:10px; align-items:center; width:100%;
-      padding:12px 14px; border-radius:16px; border:1px solid var(--border);
-      background: rgba(255,255,255,.03); color:var(--text); cursor:pointer; text-align:right;
-      transition:.15s ease;
-    }
-    .navbtn:hover{transform: translateY(-1px); background: rgba(255,255,255,.06)}
-    .navbtn.active{background: rgba(74,163,255,.14); border-color: rgba(74,163,255,.35)}
-    .navicon{
-      width:34px; height:34px; border-radius:12px; background: rgba(255,255,255,.06);
-      display:grid; place-items:center; border:1px solid var(--border); flex:0 0 auto;
-    }
-    .navtext .t{font-weight:800}
-    .navtext .d{font-size:12px; color:var(--muted); margin-top:2px}
-
-    .sidecard{
-      margin-top:14px; padding:14px; border-radius: var(--radius);
-      border:1px solid var(--border); background: rgba(255,255,255,.03);
-    }
-    .small{color:var(--muted); font-size:12px; line-height:1.7}
-    .pilllink{
-      display:inline-flex; align-items:center; gap:10px; margin-top:10px;
-      padding:10px 12px; border-radius:14px; border:1px solid rgba(41,209,125,.35);
-      background: rgba(41,209,125,.10); color:var(--text); text-decoration:none; font-weight:800;
+      padding:14px;
+      border-radius:var(--radius);
+      background:rgba(255,255,255,.04);
+      margin-bottom:16px;
     }
 
-    .pagehead{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:14px}
-    .pagehead h2{margin:0; font-size:24px}
-    .pagehead p{margin:6px 0 0; color:var(--muted); line-height:1.8; max-width:70ch}
-    .chiprow{display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end}
-    .chip{font-size:12px; padding:7px 10px; border-radius:999px; border:1px solid var(--border);
-      background: rgba(255,255,255,.03); color:var(--muted);
+    .nav button{
+      width:100%;
+      padding:12px;
+      margin-bottom:8px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      cursor:pointer;
+      font-weight:700;
+      text-align:right;
+    }
+    .nav button.active{
+      background:rgba(74,163,255,.2);
+      border-color:rgba(74,163,255,.4);
     }
 
-    .grid{display:grid; grid-template-columns: repeat(12, 1fr); gap:14px; margin-top:16px}
+    .page{display:none}
+    .page.active{display:block}
+
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-top:16px}
     .card{
-      grid-column: span 6; padding:16px; border-radius: var(--radius); border:1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      box-shadow: var(--shadow); min-height:120px;
+      grid-column:span 6;
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:16px;
     }
-    .card h3{margin:0 0 8px; font-size:16px}
-    .card p{margin:0; color:var(--muted); line-height:1.8}
-    .meta{margin-top:12px; display:flex; gap:8px; flex-wrap:wrap}
-    .tag{font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid var(--border); background: rgba(255,255,255,.03)}
-    @media (max-width:980px){ .card{grid-column: span 12} .pagehead{flex-direction:column; align-items:flex-start} .chiprow{justify-content:flex-start} }
+    .card.full{grid-column:span 12}
 
-    /* Shop */
-    .tabs{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px}
-    .tab{
-      border:1px solid var(--border); background: rgba(255,255,255,.03); color:var(--text);
-      padding:8px 10px; border-radius:999px; font-weight:900; cursor:pointer; font-size:12px;
-    }
-    .tab.active{border-color: rgba(74,163,255,.45); background: rgba(74,163,255,.16)}
-    .emptybox{
-      grid-column: span 12; padding:18px; border-radius: var(--radius);
-      border:1px dashed rgba(255,255,255,.18); background: rgba(255,255,255,.02);
-      color: var(--muted); line-height:1.9;
+    .tag{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid var(--border);
+      margin-inline-end:6px;
+      color:var(--muted);
     }
 
-    /* Support */
-    form{
-      margin-top:12px; max-width: 820px; border:1px solid var(--border);
-      border-radius: var(--radius); background: rgba(255,255,255,.03);
-      padding:16px; box-shadow: var(--shadow);
+    .tabs button{
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      cursor:pointer;
+      font-weight:700;
+      margin:4px;
     }
-    .fgrid{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
-    @media (max-width:980px){ .fgrid{grid-template-columns:1fr} }
-    label{font-size:12px; color:var(--muted); display:block; margin-bottom:6px}
-    input, textarea, select{
-      width:100%; border-radius: 14px; border:1px solid var(--border);
-      background: rgba(0,0,0,.18); padding:10px 12px; color:var(--text);
-      outline:none; font-size:14px;
+    .tabs button.active{
+      background:rgba(74,163,255,.2);
+      border-color:rgba(74,163,255,.4);
     }
-    textarea{min-height:110px; resize:vertical}
-    .btn{
-      cursor:pointer; border:1px solid var(--border); background: rgba(255,255,255,.04);
-      color:var(--text); padding:10px 12px; border-radius:14px; font-weight:800;
-    }
-    .btn.ok{border-color: rgba(41,209,125,.45); background: rgba(41,209,125,.14)}
-    .btn.primary{border-color: rgba(74,163,255,.45); background: rgba(74,163,255,.16)}
-    .note{margin-top:10px; color:var(--muted); font-size:12px; line-height:1.7}
 
-    section.page{display:none}
-    section.page.active{display:block}
+    .empty{
+      grid-column:span 12;
+      padding:20px;
+      border:1px dashed var(--border);
+      border-radius:var(--radius);
+      color:var(--muted);
+    }
+
+    form input,form textarea,form select{
+      width:100%;
+      padding:10px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.3);
+      color:var(--text);
+      margin-bottom:10px;
+    }
+    form button{
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid rgba(41,209,125,.4);
+      background:rgba(41,209,125,.15);
+      color:var(--text);
+      font-weight:800;
+      cursor:pointer;
+    }
   </style>
 </head>
+
 <body>
+<div class="app">
 
-  <div class="topbar">
-    <div class="brandline">
-      <button class="burger" id="openMenu">☰ القائمة</button>
-      <div class="title">Voxa Store</div>
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="logo">
+      <h2>Voxa Store</h2>
+      <p>Marketplace رسمي</p>
     </div>
-  </div>
-  <div class="overlay" id="overlay"></div>
 
-  <div class="app">
-    <aside id="sidebar">
-      <div class="logo">
-        <div class="badge">VX</div>
-        <div>
-          <h1>Voxa Store</h1>
-          <p>
-            Marketplace UI<br/>
-            <span id="storeStatusText">حالة السيستم: …</span>
-          </p>
-        </div>
+    <div class="nav">
+      <button class="active" data-page="about">About us</button>
+      <button data-page="shop">Shop</button>
+      <button data-page="sellers">Sellers</button>
+      <button data-page="payments">Payments</button>
+      <button data-page="support">Support</button>
+    </div>
+
+    <a href="panel.html" style="display:block;margin-top:14px;color:#4aa3ff;font-weight:700">
+      فتح Admin Panel
+    </a>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- ABOUT -->
+    <section id="about" class="page active">
+      <h1>About Voxa Store</h1>
+      <p>
+        Voxa Store واحد من أقوى المتاجر في الشرق الأوسط 🔥  
+        معانا <b>190 دليل</b> وبائعين جامدين جدًا شغالين <b>24/7</b>.
+      </p>
+      <div class="grid">
+        <div class="card"><h3>ثقة</h3><p>تعاملات آمنة ومنظمة.</p></div>
+        <div class="card"><h3>سرعة</h3><p>تنفيذ الطلبات في أقل وقت.</p></div>
       </div>
+    </section>
 
-      <nav>
-        <button class="navbtn active" data-page="about">
-          <div class="navicon">ℹ️</div>
-          <div class="navtext"><div class="t">About us</div><div class="d">تطبيل + معلومات</div></div>
-        </button>
+    <!-- SHOP -->
+    <section id="shop" class="page">
+      <h1>Shop</h1>
+      <div class="tabs" id="categoryTabs"></div>
+      <div class="grid" id="shopGrid"></div>
+    </section>
 
-        <button class="navbtn" data-page="shop">
-          <div class="navicon">🛒</div>
-          <div class="navtext"><div class="t">Shop</div><div class="d">الأقسام</div></div>
-        </button>
+    <!-- SELLERS -->
+    <section id="sellers" class="page">
+      <h1>Sellers</h1>
+      <div class="grid" id="sellersGrid"></div>
+    </section>
 
-        <button class="navbtn" data-page="sellers">
-          <div class="navicon">👤</div>
-          <div class="navtext"><div class="t">Sellers</div><div class="d">البائعين</div></div>
-        </button>
+    <!-- PAYMENTS -->
+    <section id="payments" class="page">
+      <h1>طرق الدفع</h1>
+      <div class="grid" id="paymentsGrid"></div>
+    </section>
 
-        <button class="navbtn" data-page="payments">
-          <div class="navicon">💳</div>
-          <div class="navtext"><div class="t">Payments</div><div class="d">طرق الدفع العربية</div></div>
-        </button>
+    <!-- SUPPORT -->
+    <section id="support" class="page">
+      <h1>الدعم الفني</h1>
+      <p>ابعت مشكلتك وهتوصل مباشرة للإدارة.</p>
 
-        <button class="navbtn" data-page="support">
-          <div class="navicon">🛠️</div>
-          <div class="navtext"><div class="t">Support</div><div class="d">تقديم مشكلة</div></div>
-        </button>
-      </nav>
+      <form id="issueForm">
+        <input name="name" placeholder="اسمك" required />
+        <input name="contact" placeholder="وسيلة التواصل" required />
+        <select name="type">
+          <option value="order">مشكلة طلب</option>
+          <option value="payment">مشكلة دفع</option>
+          <option value="seller">مشكلة بائع</option>
+        </select>
+        <textarea name="details" placeholder="اكتب المشكلة" required></textarea>
+        <button type="submit">إرسال</button>
+      </form>
 
-      <div class="sidecard">
-        <div class="small">
-          ✅ لوحة الأدمن/البائعين هنا:
-        </div>
-        <a class="pilllink" href="./panel.html">فتح لوحة الأدمن (Panel)</a>
-        <div class="note">* الدخول بالباسورد هناك. Orders & Issues بتظهر هناك لما تتفعل.</div>
+      <p id="issueNote"></p>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  /* ===== NAV ===== */
+  const buttons = document.querySelectorAll(".nav button");
+  const pages = document.querySelectorAll(".page");
+
+  buttons.forEach(btn=>{
+    btn.onclick = ()=>{
+      buttons.forEach(b=>b.classList.remove("active"));
+      pages.forEach(p=>p.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById(btn.dataset.page).classList.add("active");
+    }
+  });
+
+  /* ===== STORAGE KEYS ===== */
+  const KEY_SELLERS = "voxa_sellers";
+  const KEY_SUPPLY  = "voxa_supplies";
+  const KEY_ISSUES  = "voxa_issues";
+
+  /* ===== SELLERS ===== */
+  function loadSellers(){
+    try{
+      return JSON.parse(localStorage.getItem(KEY_SELLERS)) || ["gq_8","k_i_l_"];
+    }catch{return ["gq_8","k_i_l_"];}
+  }
+  const sellersGrid = document.getElementById("sellersGrid");
+  function renderSellers(){
+    const sellers = loadSellers();
+    sellersGrid.innerHTML = sellers.map(s=>`
+      <div class="card">
+        <h3>@${s}</h3>
+        <span class="tag">Verified</span>
       </div>
-    </aside>
+    `).join("");
+  }
 
-    <main>
-      <!-- ABOUT -->
-      <section class="page active" id="page-about">
-        <div class="pagehead">
-          <div>
-            <h2>About us</h2>
-            <p>
-              إحنا Voxa Store — أحسن ستور في الشرق الأوسط 🔥<br/>
-              معانا <b>190 دليل</b> وبائعين جامدين جدًا، شغالين <b>24 ساعة</b> عشان نخدمك بسرعة وبشكل محترم.
-            </p>
-          </div>
-          <div class="chiprow">
-            <span class="chip">📘 190 دليل</span>
-            <span class="chip">🔥 بائعين جامدين</span>
-            <span class="chip">⏱️ 24/7</span>
-          </div>
-        </div>
+  /* ===== SHOP ===== */
+  const categories = ["nitros","credits","visas","effects","boosts","accounts"];
+  let activeCat = categories[0];
+  const categoryTabs = document.getElementById("categoryTabs");
+  const shopGrid = document.getElementById("shopGrid");
 
-        <div class="grid">
-          <div class="card">
-            <h3>ليه إحنا؟</h3>
-            <p>تنظيم، سرعة رد، دعم محترم، وتجربة شكلها جامد.</p>
-            <div class="meta">
-              <span class="tag">ثقة</span><span class="tag">سرعة</span><span class="tag">دعم</span>
-            </div>
-          </div>
-          <div class="card">
-            <h3>نظام الشوب</h3>
-            <p>الأقسام واضحة، وإنت هتضيف المنتجات من موقع تاني زي ما تحب.</p>
-            <div class="meta">
-              <span class="tag">مرونة</span><span class="tag">أقسام</span><span class="tag">UI</span>
-            </div>
-          </div>
-        </div>
-      </section>
+  function loadSupplies(){
+    try{ return JSON.parse(localStorage.getItem(KEY_SUPPLY)) || []; }
+    catch{ return []; }
+  }
 
-      <!-- SHOP -->
-      <section class="page" id="page-shop">
-        <div class="pagehead">
-          <div>
-            <h2>Shop</h2>
-            <p>الأقسام موجودة، ومكان المنتجات فاضي (إنت هتضيفهم من موقع تاني).</p>
-          </div>
-          <div class="chiprow">
-            <span class="chip">🧩 أقسام ثابتة</span>
-            <span class="chip" id="modeBadge">…</span>
-          </div>
-        </div>
+  function renderShop(){
+    categoryTabs.innerHTML = categories.map(c=>`
+      <button class="${c===activeCat?'active':''}" data-cat="${c}">${c}</button>
+    `).join("");
 
-        <div class="tabs" id="categoryTabs"></div>
-        <div class="grid" id="shopGrid"></div>
-      </section>
-
-      <!-- SELLERS -->
-      <section class="page" id="page-sellers">
-        <div class="pagehead">
-          <div>
-            <h2>Sellers</h2>
-            <p>دول البائعين المعتمدين عندنا.</p>
-          </div>
-          <div class="chiprow">
-            <span class="chip">✅ Verified</span>
-          </div>
-        </div>
-
-        <div class="grid" id="sellersGrid"></div>
-      </section>
-
-      <!-- PAYMENTS -->
-      <section class="page" id="page-payments">
-        <div class="pagehead">
-          <div>
-            <h2>Payments</h2>
-            <p>طرق الدفع العربية (بتظهر هنا كاملة، وحالتها بتتراجع من لوحة الأدمن).</p>
-          </div>
-          <div class="chiprow">
-            <span class="chip">💳 دفع</span>
-            <span class="chip" id="payStatusChip">…</span>
-          </div>
-        </div>
-
-        <div class="grid" id="paymentsGrid"></div>
-      </section>
-
-      <!-- SUPPORT -->
-      <section class="page" id="page-support">
-        <div class="pagehead">
-          <div>
-            <h2>Support</h2>
-            <p>قدّم مشكلة/تذكرة، وهتظهر في لوحة الأدمن تحت Issues.</p>
-          </div>
-          <div class="chiprow">
-            <span class="chip">🧾 Issues</span>
-            <span class="chip">⚡ رد سريع</span>
-          </div>
-        </div>
-
-        <form id="issueForm">
-          <div class="fgrid">
-            <div>
-              <label>اسمك</label>
-              <input name="name" required placeholder="اسمك" />
-            </div>
-            <div>
-              <label>وسيلة تواصل (Discord/رقم/إيميل)</label>
-              <input name="contact" required placeholder="مثال: discordUser#0001" />
-            </div>
-          </div>
-
-          <div style="margin-top:12px">
-            <label>نوع المشكلة</label>
-            <select name="type" required>
-              <option value="payment">مشكلة دفع</option>
-              <option value="order">مشكلة طلب</option>
-              <option value="seller">مشكلة بائع</option>
-              <option value="other">أخرى</option>
-            </select>
-          </div>
-
-          <div style="margin-top:12px">
-            <label>تفاصيل المشكلة</label>
-            <textarea name="details" required placeholder="اكتب التفاصيل…"></textarea>
-          </div>
-
-          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
-            <button class="btn ok" type="submit">إرسال المشكلة</button>
-            <button class="btn primary" type="reset">مسح</button>
-          </div>
-
-          <div class="note" id="issueNote"></div>
-        </form>
-      </section>
-    </main>
-  </div>
-
-  <script>
-    // ===== Shared Storage Keys =====
-    const KEY_SELLER_MODE = "voxa_seller_mode_enabled";   // true/false
-    const KEY_PAY_AVAIL   = "voxa_payment_availability";  // object
-    const KEY_ISSUES      = "voxa_issues";                // array
-    const KEY_ORDERS      = "voxa_orders";                // array
-
-    // ===== Basic Navigation =====
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("overlay");
-    const openMenu = document.getElementById("openMenu");
-    const navButtons = Array.from(document.querySelectorAll(".navbtn"));
-    const pages = {
-      about: document.getElementById("page-about"),
-      shop: document.getElementById("page-shop"),
-      sellers: document.getElementById("page-sellers"),
-      payments: document.getElementById("page-payments"),
-      support: document.getElementById("page-support"),
-    };
-
-    function setActivePage(key){
-      Object.values(pages).forEach(p => p.classList.remove("active"));
-      pages[key].classList.add("active");
-      navButtons.forEach(b => b.classList.toggle("active", b.dataset.page === key));
-      history.replaceState(null, "", "#" + key);
-
-      if (window.innerWidth <= 980){
-        sidebar.classList.remove("open");
-        overlay.classList.remove("show");
-      }
-    }
-
-    navButtons.forEach(btn => btn.addEventListener("click", ()=> setActivePage(btn.dataset.page)));
-    openMenu?.addEventListener("click", ()=>{ sidebar.classList.add("open"); overlay.classList.add("show"); });
-    overlay?.addEventListener("click", ()=>{ sidebar.classList.remove("open"); overlay.classList.remove("show"); });
-
-    const initial = (location.hash || "#about").replace("#","");
-    if (pages[initial]) setActivePage(initial);
-
-    // ===== Seller Mode Status (global) =====
-    const storeStatusText = document.getElementById("storeStatusText");
-    const modeBadge = document.getElementById("modeBadge");
-
-    function getSellerMode(){
-      return localStorage.getItem(KEY_SELLER_MODE) === "true";
-    }
-    function renderMode(){
-      const on = getSellerMode();
-      storeStatusText.textContent = "حالة السيستم: " + (on ? "Seller Mode ON ✅" : "Seller Mode OFF ❌");
-      modeBadge.textContent = on ? "Seller Mode ON ✅" : "Seller Mode OFF ❌";
-    }
-    window.addEventListener("storage", renderMode);
-    renderMode();
-
-    // ===== Sellers =====
-    const sellers = ["gq_8", "k_i_l_"];
-    const sellersGrid = document.getElementById("sellersGrid");
-    function renderSellers(){
-      sellersGrid.innerHTML = sellers.map(u=>`
-        <div class="card" style="grid-column: span 6">
-          <h3>@${u}</h3>
-          <p>بائع معتمد داخل Voxa Store.</p>
-          <div class="meta">
-            <span class="tag">Verified</span>
-            <span class="tag">24/7</span>
-          </div>
-        </div>
-      `).join("");
-    }
-    renderSellers();
-
-    // ===== Shop =====
-    const categories = ["nitros","credits","visas","effects","boosts","accounts"];
-    let activeCategory = categories[0];
-    const categoryTabs = document.getElementById("categoryTabs");
-    const shopGrid = document.getElementById("shopGrid");
-
-    function renderShop(){
-      categoryTabs.innerHTML = categories.map(c=>`
-        <button class="tab ${c===activeCategory ? "active":""}" data-cat="${c}">${c}</button>
-      `).join("");
-
-      categoryTabs.querySelectorAll("[data-cat]").forEach(b=>{
-        b.addEventListener("click", ()=>{
-          activeCategory = b.getAttribute("data-cat");
-          renderShop();
-        });
-      });
-
-      shopGrid.innerHTML = `
-        <div class="emptybox">
-          <b style="color:var(--text)">قسم: ${activeCategory}</b><br/>
-          هنا المنتجات هتكون فاضية — إنت هتضيفها من موقع تاني.
-          <br/><br/>
-          <span style="color:var(--muted)">ملاحظة: لو Seller Mode متقفل، مفيش أي إضافات بتظهر للمستخدمين.</span>
-        </div>
-      `;
-    }
-    renderShop();
-
-    // ===== Payments (Arabic list) =====
-    const paymentMethods = [
-      { id:"crypto",   name:"كريبتو (USDT / TRC20 / ERC20…)" },
-      { id:"instapay", name:"إنستا باي" },
-      { id:"paypal",   name:"بايبال" },
-      { id:"vodafone", name:"فودافون كاش" },
-      { id:"sar",      name:"ريال سعودي (كل أنواع التحويلات)" },
-      { id:"asiacell", name:"آسيا سيل (كل أنواع التحويلات)" },
-    ];
-
-    function defaultPay(){
-      const obj = {};
-      paymentMethods.forEach(m=> obj[m.id] = true);
-      return obj;
-    }
-    function loadPay(){
-      try{
-        const raw = localStorage.getItem(KEY_PAY_AVAIL);
-        if (!raw) return defaultPay();
-        const v = JSON.parse(raw);
-        const base = defaultPay();
-        for (const k of Object.keys(base)){
-          if (typeof v?.[k] === "boolean") base[k] = v[k];
-        }
-        return base;
-      }catch{ return defaultPay(); }
-    }
-
-    const paymentsGrid = document.getElementById("paymentsGrid");
-    const payStatusChip = document.getElementById("payStatusChip");
-
-    function renderPayments(){
-      const avail = loadPay();
-      const availableCount = paymentMethods.filter(m=>avail[m.id]).length;
-      payStatusChip.textContent = `المتاح الآن: ${availableCount}/${paymentMethods.length}`;
-
-      paymentsGrid.innerHTML = paymentMethods.map(m=>{
-        const ok = !!avail[m.id];
-        return `
-          <div class="card" style="grid-column: span 6">
-            <h3>${m.name}</h3>
-            <p>الحالة: <b style="color:${ok ? "var(--ok)" : "var(--danger)"}">${ok ? "متاح" : "غير متاح"}</b></p>
-            <div class="meta">
-              <span class="tag">${ok ? "Available" : "Unavailable"}</span>
-            </div>
-          </div>
-        `;
-      }).join("");
-    }
-    window.addEventListener("storage", renderPayments);
-    renderPayments();
-
-    // ===== Support -> Issues (saved for Panel) =====
-    const issueForm = document.getElementById("issueForm");
-    const issueNote = document.getElementById("issueNote");
-
-    function loadIssues(){
-      try{ return JSON.parse(localStorage.getItem(KEY_ISSUES) || "[]"); }
-      catch{ return []; }
-    }
-    function saveIssues(arr){
-      localStorage.setItem(KEY_ISSUES, JSON.stringify(arr));
-    }
-    function uid(){ return "i_" + Math.random().toString(16).slice(2) + Date.now().toString(16); }
-
-    issueForm.addEventListener("submit", (e)=>{
-      e.preventDefault();
-      const fd = new FormData(issueForm);
-      const issue = {
-        id: uid(),
-        at: new Date().toISOString(),
-        name: String(fd.get("name")||"").trim(),
-        contact: String(fd.get("contact")||"").trim(),
-        type: String(fd.get("type")||"").trim(),
-        details: String(fd.get("details")||"").trim(),
-        status: "open"
-      };
-      const all = loadIssues();
-      all.unshift(issue);
-      saveIssues(all);
-
-      issueNote.textContent = "✅ تم إرسال المشكلة. هتظهر في لوحة الأدمن تحت Issues.";
-      issueForm.reset();
-      setTimeout(()=> issueNote.textContent = "", 3000);
+    categoryTabs.querySelectorAll("button").forEach(b=>{
+      b.onclick=()=>{activeCat=b.dataset.cat;renderShop();}
     });
-  </script>
+
+    const items = loadSupplies().filter(p=>p.category===activeCat);
+    if(!items.length){
+      shopGrid.innerHTML = `<div class="empty">لا يوجد منتجات في ${activeCat}</div>`;
+      return;
+    }
+    shopGrid.innerHTML = items.map(p=>`
+      <div class="card">
+        <h3>${p.title}</h3>
+        <p>${p.desc}</p>
+        <span class="tag">${p.price} EGP</span>
+        <span class="tag">@${p.seller}</span>
+      </div>
+    `).join("");
+  }
+
+  /* ===== PAYMENTS ===== */
+  const paymentsGrid = document.getElementById("paymentsGrid");
+  const payments = [
+    "كريبتو","إنستا باي","بايبال","فودافون كاش","ريال سعودي","آسيا سيل"
+  ];
+  paymentsGrid.innerHTML = payments.map(p=>`
+    <div class="card"><h3>${p}</h3></div>
+  `).join("");
+
+  /* ===== SUPPORT ===== */
+  const issueForm = document.getElementById("issueForm");
+  const issueNote = document.getElementById("issueNote");
+
+  issueForm.onsubmit = e=>{
+    e.preventDefault();
+    const fd = new FormData(issueForm);
+    const arr = JSON.parse(localStorage.getItem(KEY_ISSUES)||"[]");
+    arr.unshift({
+      id:Date.now(),
+      name:fd.get("name"),
+      contact:fd.get("contact"),
+      type:fd.get("type"),
+      details:fd.get("details"),
+      status:"open"
+    });
+    localStorage.setItem(KEY_ISSUES,JSON.stringify(arr));
+    issueForm.reset();
+    issueNote.textContent="✅ تم إرسال المشكلة.";
+  };
+
+  /* INIT */
+  renderSellers();
+  renderShop();
+</script>
 </body>
 </html>
