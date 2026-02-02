@@ -3,38 +3,49 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Voxa — Multi Panel</title>
+  <title>Voxa Store</title>
 
   <style>
     :root{
-      --bg:#0b1220; --panel:#0c162b; --text:#eaf0ff; --muted:#a9b7d7;
-      --brand:#4aa3ff; --ok:#29d17d; --danger:#ff5c7a; --warn:#ffcc66;
-      --border:rgba(255,255,255,.08); --radius:18px; --shadow:0 18px 50px rgba(0,0,0,.45);
+      --bg:#0b1220;
+      --panel:#0f1a33;
+      --card:#111f3d;
+      --card2:#0f1b34;
+      --text:#eaf0ff;
+      --muted:#a9b7d7;
+      --brand:#4aa3ff;
+      --ok:#29d17d;
+      --danger:#ff5c7a;
+      --warn:#ffcc66;
+      --border:rgba(255,255,255,.10);
+      --radius:18px;
+      --shadow:0 18px 50px rgba(0,0,0,.45);
     }
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial;
-      background:
-        radial-gradient(1200px 600px at 80% -10%, rgba(74,163,255,.25), transparent 60%),
-        radial-gradient(900px 500px at 20% 0%, rgba(41,209,125,.16), transparent 55%),
-        var(--bg);
+      background: var(--bg);
       color:var(--text);
       min-height:100vh;
     }
 
+    /* Layout */
     .app{display:grid;grid-template-columns:320px 1fr;min-height:100vh}
     aside{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent 40%), var(--panel);
+      background: var(--panel);
       padding:18px;
       border-left:1px solid var(--border);
       position:sticky; top:0; height:100vh;
+      box-shadow: var(--shadow);
     }
     main{padding:24px 24px 40px}
 
+    /* Mobile sidebar */
     @media (max-width:980px){
       .app{grid-template-columns:1fr}
-      aside{position:fixed; inset:0; width:min(92vw,360px); height:auto;
+      aside{
+        position:fixed; inset:0; width:min(92vw,360px); height:auto;
         transform: translateX(110%); transition:.25s ease; z-index:50;
         border-left:none; border-right:1px solid var(--border);
       }
@@ -50,23 +61,25 @@
     .topbar{
       display:none;
       position:sticky; top:0; z-index:10; padding:14px 16px;
-      background: rgba(11,18,32,.7); backdrop-filter: blur(10px);
+      background: #0b1220;
       border-bottom:1px solid var(--border);
       gap:10px; align-items:center; justify-content:space-between;
     }
-    .burger{border:1px solid var(--border); background: rgba(255,255,255,.04); color:var(--text);
+    .burger{border:1px solid var(--border); background: var(--card2); color:var(--text);
       border-radius:14px; padding:10px 12px; cursor:pointer; font-weight:900;
     }
     .overlay{display:block}
 
+    /* Header blocks */
     .logo{
       display:flex; gap:12px; align-items:center; padding:14px;
       border:1px solid var(--border); border-radius: var(--radius);
-      background: rgba(255,255,255,.04); box-shadow: var(--shadow);
+      background: var(--card2);
+      box-shadow: var(--shadow);
     }
     .badge{
       width:44px; height:44px; border-radius:14px;
-      background: linear-gradient(135deg, rgba(74,163,255,.9), rgba(41,209,125,.7));
+      background: linear-gradient(135deg, rgba(74,163,255,.95), rgba(41,209,125,.8));
       display:grid; place-items:center; font-weight:900;
     }
     .logo h1{margin:0; font-size:16px}
@@ -76,13 +89,13 @@
     .navbtn{
       display:flex; gap:10px; align-items:center; width:100%;
       padding:12px 14px; border-radius:16px; border:1px solid var(--border);
-      background: rgba(255,255,255,.03); color:var(--text); cursor:pointer; text-align:right;
+      background: var(--card2); color:var(--text); cursor:pointer; text-align:right;
       transition:.15s ease;
     }
-    .navbtn:hover{transform: translateY(-1px); background: rgba(255,255,255,.06)}
-    .navbtn.active{background: rgba(74,163,255,.14); border-color: rgba(74,163,255,.35)}
+    .navbtn:hover{transform: translateY(-1px)}
+    .navbtn.active{background: rgba(74,163,255,.18); border-color: rgba(74,163,255,.40)}
     .navicon{
-      width:34px; height:34px; border-radius:12px; background: rgba(255,255,255,.06);
+      width:34px; height:34px; border-radius:12px; background: #0b142b;
       display:grid; place-items:center; border:1px solid var(--border); flex:0 0 auto;
     }
     .navtext .t{font-weight:900}
@@ -90,28 +103,42 @@
 
     .sidecard{
       margin-top:14px; padding:14px; border-radius: var(--radius);
-      border:1px solid var(--border); background: rgba(255,255,255,.03);
+      border:1px solid var(--border); background: var(--card2);
     }
     .small{color:var(--muted); font-size:12px; line-height:1.7}
-    .pillrow{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; align-items:center}
-    .pill{
-      display:inline-flex; gap:8px; align-items:center;
-      padding:8px 10px; border-radius:999px; border:1px solid var(--border);
-      background: rgba(255,255,255,.03); color:var(--muted); font-size:12px;
-    }
 
+    .pill{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 12px; border-radius:14px;
+      border:1px solid var(--border);
+      background: #0b142b;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:900;
+    }
+    .btn{
+      cursor:pointer; border:1px solid var(--border); background: var(--card2);
+      color:var(--text); padding:10px 12px; border-radius:14px; font-weight:900;
+    }
+    .btn.primary{border-color: rgba(74,163,255,.50); background: rgba(74,163,255,.16)}
+    .btn.ok{border-color: rgba(41,209,125,.50); background: rgba(41,209,125,.14)}
+    .btn.danger{border-color: rgba(255,92,122,.50); background: rgba(255,92,122,.14)}
+    .btn.small{padding:8px 10px; border-radius:12px; font-weight:800}
+    .btn:disabled{opacity:.55;cursor:not-allowed}
+
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between}
     .pagehead{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:14px}
     .pagehead h2{margin:0; font-size:24px}
     .pagehead p{margin:6px 0 0; color:var(--muted); line-height:1.8; max-width:70ch}
     .chiprow{display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end}
     .chip{font-size:12px; padding:7px 10px; border-radius:999px; border:1px solid var(--border);
-      background: rgba(255,255,255,.03); color:var(--muted);
+      background: var(--card2); color:var(--muted);
     }
 
     .grid{display:grid; grid-template-columns: repeat(12, 1fr); gap:14px; margin-top:16px}
     .card{
       grid-column: span 6; padding:16px; border-radius: var(--radius); border:1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      background: var(--card);
       box-shadow: var(--shadow); min-height:120px;
     }
     .card.full{grid-column:span 12}
@@ -119,10 +146,10 @@
     .card p{margin:0; color:var(--muted); line-height:1.8}
 
     .meta{margin-top:12px; display:flex; gap:8px; flex-wrap:wrap}
-    .tag{font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid var(--border); background: rgba(255,255,255,.03); color:var(--muted)}
-    .tag.ok{color:var(--ok); border-color: rgba(41,209,125,.35); background: rgba(41,209,125,.10)}
-    .tag.warn{color:var(--warn); border-color: rgba(255,204,102,.35); background: rgba(255,204,102,.10)}
-    .tag.danger{color:var(--danger); border-color: rgba(255,92,122,.35); background: rgba(255,92,122,.10)}
+    .tag{font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid var(--border); background: var(--card2); color:var(--muted)}
+    .tag.ok{color:var(--ok); border-color: rgba(41,209,125,.35); background: rgba(41,209,125,.12)}
+    .tag.warn{color:var(--warn); border-color: rgba(255,204,102,.35); background: rgba(255,204,102,.12)}
+    .tag.danger{color:var(--danger); border-color: rgba(255,92,122,.35); background: rgba(255,92,122,.12)}
 
     @media (max-width:980px){
       .card{grid-column: span 12}
@@ -132,20 +159,20 @@
 
     .tabs{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px}
     .tab{
-      border:1px solid var(--border); background: rgba(255,255,255,.03); color:var(--text);
+      border:1px solid var(--border); background: var(--card2); color:var(--text);
       padding:8px 10px; border-radius:999px; font-weight:900; cursor:pointer; font-size:12px;
     }
     .tab.active{border-color: rgba(74,163,255,.45); background: rgba(74,163,255,.16)}
 
     .emptybox{
       grid-column: span 12; padding:18px; border-radius: var(--radius);
-      border:1px dashed rgba(255,255,255,.18); background: rgba(255,255,255,.02);
+      border:1px dashed rgba(255,255,255,.18); background: var(--card2);
       color: var(--muted); line-height:1.9;
     }
 
     form{
-      margin-top:12px; max-width: 920px; border:1px solid var(--border);
-      border-radius: var(--radius); background: rgba(255,255,255,.03);
+      margin-top:12px; max-width: 820px; border:1px solid var(--border);
+      border-radius: var(--radius); background: var(--card);
       padding:16px; box-shadow: var(--shadow);
     }
     .fgrid{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
@@ -153,250 +180,133 @@
     label{font-size:12px; color:var(--muted); display:block; margin-bottom:6px}
     input, textarea, select{
       width:100%; border-radius: 14px; border:1px solid var(--border);
-      background: rgba(0,0,0,.18); padding:10px 12px; color:var(--text);
+      background: #0b142b; padding:10px 12px; color:var(--text);
       outline:none; font-size:14px;
     }
     textarea{min-height:110px; resize:vertical}
 
-    .btn{
-      cursor:pointer; border:1px solid var(--border); background: rgba(255,255,255,.04);
-      color:var(--text); padding:10px 12px; border-radius:14px; font-weight:900;
-    }
-    .btn.primary{border-color: rgba(74,163,255,.45); background: rgba(74,163,255,.16)}
-    .btn.ok{border-color: rgba(41,209,125,.45); background: rgba(41,209,125,.14)}
-    .btn.danger{border-color: rgba(255,92,122,.45); background: rgba(255,92,122,.14)}
-    .btn.small{padding:8px 10px; border-radius:12px; font-weight:800}
-
     /* Lists */
-    .list{display:flex; flex-direction:column; gap:10px; margin-top:10px}
+    .list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
     .item{
-      border:1px solid var(--border); background: rgba(255,255,255,.03);
-      border-radius:16px; padding:12px;
+      border:1px solid var(--border);
+      background: var(--card2);
+      border-radius:16px;
+      padding:12px;
     }
-    .itemTop{display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap}
+    .itemTop{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
     .itemTitle{font-weight:900}
-    .hr{height:1px;background: var(--border);margin:12px 0}
-    .actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
-    @media (max-width:520px){ .actions .btn{flex:1 1 auto} }
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    @media (max-width:520px){
+      .actions .btn{flex:1 1 auto}
+    }
 
     .status{
       font-weight:900;
       padding:6px 10px;border-radius:999px;border:1px solid var(--border);
-      background: rgba(255,255,255,.03);font-size:12px;
+      background: #0b142b;
+      font-size:12px;
     }
     .s-open{color:var(--warn)}
     .s-done{color:var(--ok)}
     .s-closed{color:var(--danger)}
-    .hidden{display:none !important}
 
-    /* Cart */
-    .cartItem{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:10px}
-    .total{font-weight:900}
-    .checkoutBox{display:none;margin-top:14px}
-
+    /* Pages */
     section.page{display:none}
     section.page.active{display:block}
 
-    /* Modal */
-    .modalWrap{
-      position:fixed; inset:0; display:none; place-items:center;
-      background: rgba(0,0,0,.55); z-index:100;
-      padding:16px;
-    }
-    .modalWrap.show{display:grid}
-    .modal{
-      width:min(680px, 100%);
-      border:1px solid var(--border);
-      border-radius:22px;
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      box-shadow: var(--shadow);
-      padding:16px;
-    }
-    .modalHead{display:flex; justify-content:space-between; gap:10px; align-items:center; flex-wrap:wrap}
-    .modalHead h3{margin:0}
-    .xbtn{border:1px solid var(--border); background: rgba(255,255,255,.04); color:var(--text);
-      border-radius:12px; padding:8px 10px; cursor:pointer; font-weight:900;
-    }
+    /* Simple divider */
+    .hr{height:1px;background: var(--border);margin:12px 0}
+
+    /* Hide helper */
+    .hidden{display:none !important}
   </style>
 </head>
 
 <body>
   <div class="topbar">
     <button class="burger" id="openMenu">☰ القائمة</button>
-    <div style="font-weight:900">Voxa</div>
-    <button class="btn small primary" id="openLogin">تسجيل دخول</button>
+    <div style="font-weight:900">Voxa Store</div>
   </div>
   <div class="overlay" id="overlay"></div>
-
-  <!-- Login Modal -->
-  <div class="modalWrap" id="loginModal">
-    <div class="modal">
-      <div class="modalHead">
-        <h3>تسجيل دخول الرتب</h3>
-        <button class="xbtn" id="closeLogin">✖</button>
-      </div>
-      <div class="hr"></div>
-
-      <div class="fgrid">
-        <div>
-          <label>الرتبة</label>
-          <select id="loginRole">
-            <option value="seller">Seller (بائع)</option>
-            <option value="owner">Owner (مسؤول)</option>
-          </select>
-        </div>
-        <div>
-          <label>الكود</label>
-          <input id="loginCode" placeholder="كود الدخول" />
-        </div>
-      </div>
-
-      <div id="sellerBox" style="margin-top:12px">
-        <label>يوزر البائع (لازم يكون مضاف في Members)</label>
-        <input id="sellerUser" placeholder="مثال: gq_8" />
-      </div>
-
-      <div class="actions" style="margin-top:12px">
-        <button class="btn ok" id="doLogin">دخول</button>
-        <button class="btn" id="doLogout">تسجيل خروج</button>
-      </div>
-
-      <div class="muted" id="loginNote" style="margin-top:10px"></div>
-
-      <div class="hr"></div>
-      <div class="muted">
-        <b>Seller Code ثابت:</b> 20119<br/>
-        <b>Owner Key:</b> انت اللي بتحطه من Owner Panel → Members (أول مرة لازم تعمله Setup).<br/>
-      </div>
-    </div>
-  </div>
 
   <div class="app">
     <aside id="sidebar">
       <div class="logo">
         <div class="badge">VX</div>
         <div>
-          <h1>Voxa</h1>
-          <p>Public + Seller + Owner</p>
+          <h1>Voxa Store</h1>
+          <p>Marketplace رسمي</p>
         </div>
       </div>
 
       <div class="sidecard">
-        <div class="small">حالة الدخول:</div>
-        <div class="pillrow">
-          <span class="pill" id="rolePill">Role: public</span>
-          <span class="pill hidden" id="sellerPill">Seller: —</span>
+        <div class="row">
+          <span class="pill" id="loginPill">غير مسجل</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn primary small" id="loginDiscordBtn">تسجيل Discord</button>
+            <button class="btn danger small hidden" id="logoutBtn">خروج</button>
+          </div>
         </div>
-        <div class="actions" style="margin-top:10px">
-          <button class="btn small primary" id="openLogin2">تسجيل دخول</button>
-          <button class="btn small danger" id="logout2">خروج</button>
+        <div class="small" style="margin-top:10px">
+          * الصلاحيات بتتحدد تلقائي حسب Discord ID.
         </div>
       </div>
 
-      <!-- NAV: Public -->
-      <nav id="navPublic">
-        <button class="navbtn active" data-page="about">
-          <div class="navicon">ℹ️</div>
-          <div class="navtext"><div class="t">About us</div><div class="d">معلومات</div></div>
-        </button>
-        <button class="navbtn" data-page="shop">
-          <div class="navicon">🛒</div>
-          <div class="navtext"><div class="t">Shop</div><div class="d">المنتجات + السلة</div></div>
-        </button>
-        <button class="navbtn" data-page="sellers">
-          <div class="navicon">👤</div>
-          <div class="navtext"><div class="t">Sellers</div><div class="d">البائعين</div></div>
-        </button>
-        <button class="navbtn" data-page="proofs">
-          <div class="navicon">✅</div>
-          <div class="navtext"><div class="t">Proofs</div><div class="d">إثباتات</div></div>
-        </button>
-        <button class="navbtn" data-page="payments">
-          <div class="navicon">💳</div>
-          <div class="navtext"><div class="t">Payments</div><div class="d">طرق الدفع</div></div>
-        </button>
-        <button class="navbtn" data-page="support">
-          <div class="navicon">🛠️</div>
-          <div class="navtext"><div class="t">Support</div><div class="d">شكاوي</div></div>
-        </button>
-      </nav>
-
-      <!-- NAV: Seller -->
-      <nav id="navSeller" class="hidden">
-        <button class="navbtn" data-page="seller-orders">
-          <div class="navicon">📦</div>
-          <div class="navtext"><div class="t">Orders</div><div class="d">طلباتك فقط</div></div>
-        </button>
-        <button class="navbtn" data-page="seller-supplies">
-          <div class="navicon">➕</div>
-          <div class="navtext"><div class="t">Supplies</div><div class="d">إضافة منتجات</div></div>
-        </button>
-      </nav>
-
-      <!-- NAV: Owner -->
-      <nav id="navOwner" class="hidden">
-        <button class="navbtn" data-page="owner-supplies">
-          <div class="navicon">📦</div>
-          <div class="navtext"><div class="t">Supplies</div><div class="d">Approve/Manage</div></div>
-        </button>
-        <button class="navbtn" data-page="owner-members">
-          <div class="navicon">👥</div>
-          <div class="navtext"><div class="t">Members</div><div class="d">Sellers + Owners</div></div>
-        </button>
-        <button class="navbtn" data-page="owner-issues">
-          <div class="navicon">🧾</div>
-          <div class="navtext"><div class="t">Issues</div><div class="d">الشكاوي</div></div>
-        </button>
-        <button class="navbtn" data-page="owner-payments">
-          <div class="navicon">💳</div>
-          <div class="navtext"><div class="t">Payments Status</div><div class="d">تفعيل/قفل</div></div>
-        </button>
-      </nav>
+      <nav id="nav"></nav>
 
       <div class="sidecard">
         <div class="small">
-          <b>ملاحظة:</b> Owner Key بيتحط من Owner Panel → Members.
+          أول مرة للأونر: افتح Console واكتب:
+          <div class="hr"></div>
+          <b style="color:var(--text)">voxaSetOwners(["YOUR_ID"])</b>
         </div>
       </div>
     </aside>
 
     <main>
-      <!-- ============== PUBLIC PAGES ============== -->
+      <!-- ===== PUBLIC PAGES ===== -->
 
+      <!-- ABOUT (رجع زي الأول) -->
       <section class="page active" id="page-about">
         <div class="pagehead">
           <div>
             <h2>About us</h2>
-            <p>Voxa Store — Public + Seller + Owner system.</p>
+            <p>
+              إحنا Voxa Store — أحسن ستور في الشرق الأوسط 🔥<br/>
+              معانا <b>190 دليل</b> وبائعين جامدين جدًا، شغالين <b>24 ساعة</b>.
+            </p>
           </div>
           <div class="chiprow">
-            <span class="chip" id="whoChip">Role: public</span>
+            <span class="chip">📘 190 دليل</span>
+            <span class="chip">🔥 Sellers جامدين</span>
+            <span class="chip">⏱️ 24/7</span>
           </div>
         </div>
 
         <div class="grid">
           <div class="card">
-            <h3>النظام الجديد</h3>
-            <p>عندك 3 Panels: Public / Seller / Owner.</p>
+            <h3>ليه إحنا؟</h3>
+            <p>تنظيم، سرعة، دعم محترم، وتجربة شكلها جامد.</p>
             <div class="meta">
-              <span class="tag ok">Public</span>
-              <span class="tag warn">Seller</span>
-              <span class="tag danger">Owner</span>
+              <span class="tag">ثقة</span><span class="tag">سرعة</span><span class="tag">دعم</span>
             </div>
           </div>
-
           <div class="card">
-            <h3>تسجيل الدخول</h3>
-            <p>Seller بكود 20119 + يوزر بائع. Owner بكود انت بتحطه.</p>
+            <h3>نظام الشوب</h3>
+            <p>المنتجات بتتحط من Owner Panel وتظهر هنا تلقائي.</p>
+            <div class="meta">
+              <span class="tag">Supplies</span><span class="tag">Orders</span><span class="tag">Issues</span>
+            </div>
           </div>
         </div>
       </section>
 
+      <!-- SHOP -->
       <section class="page" id="page-shop">
         <div class="pagehead">
           <div>
             <h2>Shop</h2>
-            <p>المنتجات المعتمدة (Approved) فقط هي اللي بتظهر هنا.</p>
+            <p>اختار قسم وشوف المنتجات. تقدر تضيف للسلة أو تشتري مباشرة.</p>
           </div>
           <div class="chiprow">
             <span class="chip" id="shopCountChip">…</span>
@@ -412,13 +322,13 @@
             <div id="cartList" style="margin-top:10px;color:var(--muted)">السلة فاضية.</div>
 
             <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center">
-              <span class="total" id="cartTotal">الإجمالي: 0 EGP</span>
+              <span style="font-weight:900" id="cartTotal">الإجمالي: 0 EGP</span>
               <button class="btn ok" id="checkoutBtn">إتمام الشراء</button>
               <button class="btn small" id="clearCartBtn">تفريغ السلة</button>
             </div>
 
-            <div class="checkoutBox" id="checkoutBox">
-              <div class="card full" style="background:rgba(0,0,0,.15); margin-top:14px">
+            <div class="hidden" id="checkoutBox" style="margin-top:14px">
+              <div class="card full" style="background: var(--card2)">
                 <h3>🧾 بيانات الشراء</h3>
 
                 <div class="fgrid" style="margin-top:12px">
@@ -428,7 +338,7 @@
                   </div>
                   <div>
                     <label>وسيلة التواصل</label>
-                    <input id="coContact" placeholder="Discord ID / Username / رابط..." />
+                    <input id="coContact" placeholder="Discord/رقم..." />
                   </div>
                 </div>
 
@@ -441,57 +351,66 @@
                 <p id="coNote" style="margin-top:10px;color:var(--muted)"></p>
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
+      <!-- SELLERS -->
       <section class="page" id="page-sellers">
         <div class="pagehead">
           <div>
             <h2>Sellers</h2>
-            <p>البائعين المعتمدين (بيتحددوا من Owner Panel → Members).</p>
+            <p>دول البائعين المعتمدين عندنا.</p>
           </div>
           <div class="chiprow">
             <span class="chip" id="sellersCountChip">…</span>
           </div>
         </div>
+
         <div class="grid" id="sellersGrid"></div>
       </section>
 
+      <!-- PROOFS -->
       <section class="page" id="page-proofs">
         <div class="pagehead">
           <div>
             <h2>Proofs</h2>
-            <p>طلبات اتعملها Done (بدون أزرار).</p>
+            <p>طلبات اتسلمت وتمت بنجاح ✅</p>
           </div>
           <div class="chiprow">
             <span class="chip" id="proofsCountChip">…</span>
           </div>
         </div>
-        <div class="grid" id="proofsGrid"></div>
+
+        <div class="list" id="proofsList"></div>
       </section>
 
+      <!-- PAYMENTS -->
       <section class="page" id="page-payments">
         <div class="pagehead">
           <div>
             <h2>Payments</h2>
-            <p>طرق الدفع المتاحة (بتتحدد من Owner Panel → Payments Status).</p>
+            <p>طرق الدفع المتاحة (بتتدار من Owner).</p>
           </div>
           <div class="chiprow">
-            <span class="chip" id="payCountChip">…</span>
+            <span class="chip">💳 دفع</span>
           </div>
         </div>
+
         <div class="grid" id="paymentsGrid"></div>
       </section>
 
+      <!-- SUPPORT -->
       <section class="page" id="page-support">
         <div class="pagehead">
           <div>
             <h2>Support</h2>
-            <p>قدّم مشكلة، هتظهر للأونرات في Issues.</p>
+            <p>قدّم مشكلة/تذكرة، وهتوصل للأونر في Issues.</p>
           </div>
           <div class="chiprow">
             <span class="chip">🧾 Issues</span>
+            <span class="chip">⚡ رد سريع</span>
           </div>
         </div>
 
@@ -502,8 +421,8 @@
               <input name="name" required placeholder="اسمك" />
             </div>
             <div>
-              <label>وسيلة تواصل</label>
-              <input name="contact" required placeholder="Discord/رقم/إيميل" />
+              <label>وسيلة تواصل (Discord/رقم/إيميل)</label>
+              <input name="contact" required placeholder="discordUser" />
             </div>
           </div>
 
@@ -522,7 +441,7 @@
             <textarea name="details" required placeholder="اكتب التفاصيل…"></textarea>
           </div>
 
-          <div class="actions" style="margin-top:12px">
+          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
             <button class="btn ok" type="submit">إرسال المشكلة</button>
             <button class="btn small" type="reset">مسح</button>
           </div>
@@ -531,13 +450,13 @@
         </form>
       </section>
 
-      <!-- ============== SELLER PAGES ============== -->
 
+      <!-- ===== SELLER PANEL (للـ seller فقط) ===== -->
       <section class="page" id="page-seller-orders">
         <div class="pagehead">
           <div>
-            <h2>Seller Panel — Orders</h2>
-            <p>هنا هتشوف الطلبات اللي فيها منتجاتك فقط. تقدر تعمل Claim ثم Done.</p>
+            <h2>Seller — Orders</h2>
+            <p>هنا بتشوف الطلبات اللي تخصك (حسب Seller username في الطلب).</p>
           </div>
           <div class="chiprow">
             <span class="chip" id="sellerOrdersChip">…</span>
@@ -549,49 +468,38 @@
       <section class="page" id="page-seller-supplies">
         <div class="pagehead">
           <div>
-            <h2>Seller Panel — Supplies</h2>
-            <p>إضافة منتجات جديدة. هتروح Pending للأونرات لحد ما يعملوا Approve.</p>
+            <h2>Seller — Supplies</h2>
+            <p>إضافة منتجات جديدة (تروح Pending عند الأونر عشان يوافق).</p>
           </div>
           <div class="chiprow">
-            <span class="chip" id="sellerPendingChip">…</span>
+            <span class="chip">⏳ Pending Approval</span>
           </div>
         </div>
 
-        <form id="sellerAddSupplyForm">
+        <form id="sellerSupplyForm">
           <div class="fgrid">
             <div>
               <label>القسم</label>
-              <select name="category" required>
-                <option value="nitros">nitros</option>
-                <option value="credits">credits</option>
-                <option value="visas">visas</option>
-                <option value="effects">effects</option>
-                <option value="boosts">boosts</option>
-                <option value="accounts">accounts</option>
-              </select>
+              <select id="sellerSupCategory"></select>
             </div>
             <div>
               <label>اسم المنتج</label>
-              <input name="title" required placeholder="Nitro 1 Month" />
+              <input id="sellerSupTitle" placeholder="Nitro 1 Month" />
             </div>
           </div>
 
           <div class="fgrid" style="margin-top:12px">
             <div>
               <label>السعر (EGP)</label>
-              <input name="price" type="number" min="1" required placeholder="250" />
+              <input id="sellerSupPrice" type="number" min="1" placeholder="250" />
             </div>
             <div>
               <label>وصف</label>
-              <input name="desc" required placeholder="وصف سريع..." />
+              <input id="sellerSupDesc" placeholder="وصف سريع…" />
             </div>
           </div>
 
-          <div class="actions" style="margin-top:12px">
-            <button class="btn ok" type="submit">إرسال (Pending)</button>
-            <button class="btn small" type="reset">مسح</button>
-          </div>
-
+          <button class="btn primary" type="submit" style="margin-top:12px">+ إرسال للموافقة</button>
           <p class="small" id="sellerSupNote" style="margin-top:10px"></p>
         </form>
 
@@ -599,13 +507,13 @@
         <div class="list" id="sellerPendingList"></div>
       </section>
 
-      <!-- ============== OWNER PAGES ============== -->
 
+      <!-- ===== OWNER PANEL (للـ owner فقط) ===== -->
       <section class="page" id="page-owner-supplies">
         <div class="pagehead">
           <div>
-            <h2>Owner Panel — Supplies</h2>
-            <p>Approve منتجات البائعين + إدارة المنتجات المعتمدة.</p>
+            <h2>Owner — Supplies</h2>
+            <p>تحكم كامل في المنتجات + قبول منتجات البائعين (Pending).</p>
           </div>
           <div class="chiprow">
             <span class="chip" id="ownerSupChip">…</span>
@@ -614,82 +522,104 @@
 
         <div class="grid">
           <div class="card full">
-            <h3>Pending Supplies</h3>
-            <div class="list" id="ownerPendingSupplies"></div>
-          </div>
-          <div class="card full">
-            <h3>Approved Supplies (Shop)</h3>
-            <div class="list" id="ownerApprovedSupplies"></div>
+            <h3>➕ إضافة منتج مباشر</h3>
+
+            <div class="fgrid" style="margin-top:12px">
+              <div>
+                <label>القسم</label>
+                <select id="ownSupCategory"></select>
+              </div>
+              <div>
+                <label>اسم المنتج</label>
+                <input id="ownSupTitle" placeholder="Nitro 1 Month" />
+              </div>
+            </div>
+
+            <div class="fgrid" style="margin-top:12px">
+              <div>
+                <label>السعر (EGP)</label>
+                <input id="ownSupPrice" type="number" min="1" placeholder="250" />
+              </div>
+              <div>
+                <label>Seller username</label>
+                <input id="ownSupSeller" placeholder="gq_8" />
+              </div>
+            </div>
+
+            <div style="margin-top:12px">
+              <label>وصف</label>
+              <textarea id="ownSupDesc" placeholder="وصف سريع…"></textarea>
+            </div>
+
+            <button class="btn ok" id="ownAddSupplyBtn" style="margin-top:12px">+ إضافة</button>
+            <p class="small" id="ownSupNote" style="margin-top:10px"></p>
           </div>
         </div>
+
+        <div class="hr"></div>
+        <h3 style="margin:0 0 10px">⏳ Pending Supplies</h3>
+        <div class="list" id="ownerPendingList"></div>
+
+        <div class="hr"></div>
+        <h3 style="margin:0 0 10px">📦 Current Supplies</h3>
+        <div class="list" id="ownerSuppliesList"></div>
       </section>
 
       <section class="page" id="page-owner-members">
         <div class="pagehead">
           <div>
-            <h2>Owner Panel — Members</h2>
-            <p>إدارة البائعين + إضافة/حذف مسؤولين + تغيير Owner Key.</p>
+            <h2>Owner — Members</h2>
+            <p>إضافة/حذف Sellers IDs + إضافة Owners IDs.</p>
           </div>
           <div class="chiprow">
-            <span class="chip" id="membersChip">…</span>
+            <span class="chip">Owners / Sellers IDs</span>
           </div>
         </div>
 
         <div class="grid">
           <div class="card full">
-            <h3>Owner Key (الكود اللي انت بتحطه)</h3>
-            <div class="muted">لو أول مرة: حط Owner Key هنا وبكدا أي Owner يقدر يدخل به.</div>
+            <h3>إضافة Seller ID</h3>
             <div class="fgrid" style="margin-top:12px">
               <div>
-                <label>Owner Key</label>
-                <input id="ownerKeyInput" placeholder="اكتب الكود الجديد" />
+                <label>Discord User ID</label>
+                <input id="addSellerIdInput" placeholder="مثال: 1234567890" />
               </div>
               <div>
-                <label>حفظ</label>
-                <button class="btn ok" id="saveOwnerKeyBtn">حفظ Owner Key</button>
+                <label>زر الإضافة</label>
+                <button class="btn primary" id="addSellerIdBtn">+ إضافة</button>
               </div>
             </div>
-            <div class="muted" id="ownerKeyNote" style="margin-top:10px"></div>
+            <div class="hr"></div>
+            <div class="list" id="sellerIdsList"></div>
           </div>
 
           <div class="card full">
-            <h3>Sellers</h3>
+            <h3>إضافة Owner ID</h3>
             <div class="fgrid" style="margin-top:12px">
               <div>
-                <label>يوزر البائع</label>
-                <input id="addSellerInput" placeholder="مثال: gq_8" />
+                <label>Discord User ID</label>
+                <input id="addOwnerIdInput" placeholder="مثال: 1234567890" />
               </div>
               <div>
-                <label>إضافة</label>
-                <button class="btn primary" id="addSellerBtn">+ إضافة بائع</button>
+                <label>زر الإضافة</label>
+                <button class="btn ok" id="addOwnerIdBtn">+ إضافة</button>
               </div>
             </div>
-            <div class="list" id="ownersSellersList"></div>
-            <div class="muted">Seller Code ثابت: <b style="color:var(--text)">20119</b></div>
+            <div class="hr"></div>
+            <div class="list" id="ownerIdsList"></div>
           </div>
+        </div>
 
-          <div class="card full">
-            <h3>Owners (مسؤولين)</h3>
-            <div class="fgrid" style="margin-top:12px">
-              <div>
-                <label>اسم/يوزر المسؤول</label>
-                <input id="addOwnerInput" placeholder="owner_1" />
-              </div>
-              <div>
-                <label>إضافة</label>
-                <button class="btn primary" id="addOwnerBtn">+ إضافة مسؤول</button>
-              </div>
-            </div>
-            <div class="list" id="ownersList"></div>
-          </div>
+        <div class="small">
+          * تقدر تجيب Discord ID من إعدادات Discord → Advanced → Developer Mode ثم Copy ID.
         </div>
       </section>
 
       <section class="page" id="page-owner-issues">
         <div class="pagehead">
           <div>
-            <h2>Owner Panel — Issues</h2>
-            <p>الشكاوي اللي جاية من Support. لكل مشكلة زر رد.</p>
+            <h2>Owner — Issues</h2>
+            <p>الشكاوي/المشاكل اللي جاية من Support.</p>
           </div>
           <div class="chiprow">
             <span class="chip" id="issuesChip">…</span>
@@ -701,126 +631,164 @@
       <section class="page" id="page-owner-payments">
         <div class="pagehead">
           <div>
-            <h2>Owner Panel — Payments Status</h2>
-            <p>فعّل/اقفل طرق الدفع اللي تظهر في الشوب.</p>
+            <h2>Owner — Payments Status</h2>
+            <p>تفعيل/إيقاف طرق الدفع اللي تظهر للناس.</p>
           </div>
           <div class="chiprow">
-            <span class="chip" id="payStatusChip">…</span>
+            <span class="chip">Enable / Disable</span>
           </div>
         </div>
-
-        <div class="grid">
-          <div class="card full">
-            <h3>طرق الدفع</h3>
-            <div class="list" id="payStatusList"></div>
-          </div>
-        </div>
+        <div class="list" id="paymentsAdminList"></div>
       </section>
 
     </main>
   </div>
 
   <script>
-    // ================== KEYS / CONSTANTS ==================
-    const SELLER_CODE = "20119"; // ثابت حسب طلبك
-
-    const KEY_ROLE = "voxa_role"; // public | seller | owner
-    const KEY_SELLER_USER = "voxa_seller_username";
-
-    const KEY_OWNER_KEY = "voxa_owner_key"; // انت بتحطه من Members
-    const KEY_OWNERS = "voxa_owners";       // أسماء مسؤولين
-    const KEY_SELLERS = "voxa_sellers";     // يوزرات البائعين
-
-    const KEY_SUPPLY = "voxa_supplies";           // approved supplies (shop)
-    const KEY_SUPPLY_PENDING = "voxa_supplies_pending"; // seller submissions pending
-
-    const KEY_ORDERS = "voxa_orders";
-    const KEY_PROOFS = "voxa_proofs";
-    const KEY_ISSUES = "voxa_issues";
-    const KEY_CART = "voxa_cart";
-
-    const KEY_PAY_STATUS = "voxa_payments_status";
-
-    const CATEGORIES = ["nitros","credits","visas","effects","boosts","accounts"];
-
-    // ================== DEFAULTS ==================
-    const DEFAULT_SELLERS = ["gq_8", "k_i_l_"];
-    const DEFAULT_OWNERS  = ["owner"]; // اسم افتراضي، تقدر تشيله/تغيره
-    const DEFAULT_PAY_METHODS = [
-      { id:"crypto",    title:"كريبتو (USDT / TRC20 / ERC20…)", enabled:true },
-      { id:"instapay",  title:"إنستا باي", enabled:true },
-      { id:"paypal",    title:"بايبال", enabled:true },
-      { id:"vodafone",  title:"فودافون كاش", enabled:true },
-      { id:"sar",       title:"ريال سعودي (كل أنواع التحويلات)", enabled:true },
-      { id:"asiacell",  title:"آسيا سيل (كل أنواع التحويلات)", enabled:true },
-    ];
-
-    // ================== UTILS ==================
-    const esc = (s)=> String(s||"")
-      .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;").replaceAll("'","&#039;");
-
-    const uid = (p)=> p + "_" + Math.random().toString(16).slice(2) + Date.now().toString(16);
-
-    function safeJSONParse(raw, fallback){
-      try { return JSON.parse(raw); } catch { return fallback; }
-    }
-    function loadJSON(key, fallback){
-      const raw = localStorage.getItem(key);
-      return raw ? safeJSONParse(raw, fallback) : fallback;
-    }
-    function saveJSON(key, value){
-      localStorage.setItem(key, JSON.stringify(value));
-    }
-
-    function getRole(){ return localStorage.getItem(KEY_ROLE) || "public"; }
-    function setRole(role){ localStorage.setItem(KEY_ROLE, role); }
-    function getSellerUser(){ return localStorage.getItem(KEY_SELLER_USER) || ""; }
-    function setSellerUser(u){ localStorage.setItem(KEY_SELLER_USER, u || ""); }
-
-    function statusHTML(s){
-      if (s==="open") return `<span class="status s-open">open</span>`;
-      if (s==="done") return `<span class="status s-done">done</span>`;
-      return `<span class="status s-closed">closed</span>`;
-    }
-
-    function normalizeDiscordLink(contact){
-      const c = String(contact||"").trim();
-      if (!c) return null;
-      if (/^https?:\/\//i.test(c)) return c;
-      if (/^\d{10,20}$/.test(c)) return `https://discord.com/users/${c}`;
-      return null;
-    }
-
-    async function copyText(txt){
-      try { await navigator.clipboard.writeText(txt); alert("✅ تم النسخ"); }
-      catch { prompt("انسخ يدويًا:", txt); }
-    }
-
-    // ================== INIT DEFAULT STORAGE ==================
-    if (!localStorage.getItem(KEY_SELLERS)) saveJSON(KEY_SELLERS, DEFAULT_SELLERS);
-    if (!localStorage.getItem(KEY_OWNERS)) saveJSON(KEY_OWNERS, DEFAULT_OWNERS);
-
-    if (!localStorage.getItem(KEY_SUPPLY)) saveJSON(KEY_SUPPLY, []);
-    if (!localStorage.getItem(KEY_SUPPLY_PENDING)) saveJSON(KEY_SUPPLY_PENDING, []);
-
-    if (!localStorage.getItem(KEY_ORDERS)) saveJSON(KEY_ORDERS, []);
-    if (!localStorage.getItem(KEY_PROOFS)) saveJSON(KEY_PROOFS, []);
-    if (!localStorage.getItem(KEY_ISSUES)) saveJSON(KEY_ISSUES, []);
-    if (!localStorage.getItem(KEY_CART)) saveJSON(KEY_CART, []);
-
-    if (!localStorage.getItem(KEY_PAY_STATUS)) saveJSON(KEY_PAY_STATUS, DEFAULT_PAY_METHODS);
-
-    // ================== MOBILE SIDEBAR ==================
+    // ===== Mobile Sidebar =====
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("overlay");
     const openMenu = document.getElementById("openMenu");
     openMenu?.addEventListener("click", ()=>{ sidebar.classList.add("open"); overlay.classList.add("show"); });
     overlay?.addEventListener("click", ()=>{ sidebar.classList.remove("open"); overlay.classList.remove("show"); });
 
-    // ================== PAGES NAV ==================
+    // ===== Storage Keys =====
+    const KEY_SESSION       = "voxa_session";
+    const KEY_OWNERS        = "voxa_owners";        // array of discord ids
+    const KEY_SELLERS_IDS   = "voxa_seller_ids";    // array of discord ids
+    const KEY_SELLERS_NAMES = "voxa_sellers";       // array of seller usernames for public page
+    const KEY_SUPPLY        = "voxa_supplies";      // approved supplies
+    const KEY_SUPPLY_PEND   = "voxa_supplies_pending"; // pending by sellers
+    const KEY_ISSUES        = "voxa_issues";
+    const KEY_ORDERS        = "voxa_orders";
+    const KEY_PROOFS        = "voxa_proofs";
+    const KEY_CART          = "voxa_cart";
+    const KEY_PAYMENTS_CFG  = "voxa_payments_cfg";  // enabled methods
+
+    const DEFAULT_SELLERS_NAMES = ["gq_8", "k_i_l_"];
+    const CATEGORIES = ["nitros","credits","visas","effects","boosts","accounts"];
+
+    const PAYMENT_METHODS = [
+      { key:"crypto", label:"كريبتو (USDT / TRC20 / ERC20…)" },
+      { key:"instapay", label:"إنستا باي" },
+      { key:"paypal", label:"بايبال" },
+      { key:"vodafone", label:"فودافون كاش" },
+      { key:"sar", label:"ريال سعودي (كل أنواع التحويلات)" },
+      { key:"asiacell", label:"آسيا سيل (كل أنواع التحويلات)" }
+    ];
+
+    // ===== Discord OAuth2 (Implicit Grant) =====
+    // حط Client ID بتاع تطبيق الديسكورد هنا:
+    const DISCORD_CLIENT_ID = "1467767591668809929";
+    const DISCORD_REDIRECT_URI = location.origin + location.pathname;
+    const DISCORD_SCOPES = "identify";
+
+    function esc(s){
+      return String(s||"")
+        .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+    }
+    function safeJSONParse(raw, fallback){
+      try{ return JSON.parse(raw); }catch{ return fallback; }
+    }
+    const uid = (p)=> p + "_" + Math.random().toString(16).slice(2) + Date.now().toString(16);
+
+    function getSession(){ return safeJSONParse(localStorage.getItem(KEY_SESSION) || "null", null); }
+    function setSession(s){ localStorage.setItem(KEY_SESSION, JSON.stringify(s)); }
+    function clearSession(){ localStorage.removeItem(KEY_SESSION); }
+
+    function parseTokenFromHash(){
+      const h = new URLSearchParams((location.hash || "").replace("#",""));
+      const token = h.get("access_token");
+      if(token){
+        history.replaceState(null, "", location.pathname + location.search);
+      }
+      return token;
+    }
+    async function fetchDiscordMe(token){
+      const res = await fetch("https://discord.com/api/users/@me", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if(!res.ok) throw new Error("discord_me_failed");
+      return await res.json();
+    }
+    function oauthLogin(){
+      if(!DISCORD_CLIENT_ID || DISCORD_CLIENT_ID === "PUT_CLIENT_ID_HERE"){
+        alert("حط DISCORD_CLIENT_ID في الكود الأول.");
+        return;
+      }
+      const url =
+        `https://discord.com/oauth2/authorize?client_id=${encodeURIComponent(DISCORD_CLIENT_ID)}` +
+        `&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT_URI)}` +
+        `&response_type=token&scope=${encodeURIComponent(DISCORD_SCOPES)}`;
+      location.href = url;
+    }
+    function getRoleById(discordId){
+      const owners = safeJSONParse(localStorage.getItem(KEY_OWNERS) || "[]", []);
+      const sellers = safeJSONParse(localStorage.getItem(KEY_SELLERS_IDS) || "[]", []);
+      if(Array.isArray(owners) && owners.includes(discordId)) return "owner";
+      if(Array.isArray(sellers) && sellers.includes(discordId)) return "seller";
+      return "public";
+    }
+
+    // Public helper: set owners once
+    window.voxaSetOwners = function(arr){
+      if(!Array.isArray(arr) || !arr.length) return alert("حط Array فيها IDs");
+      localStorage.setItem(KEY_OWNERS, JSON.stringify(arr.map(String)));
+      alert("✅ تم حفظ Owners IDs");
+      location.reload();
+    };
+
+    // Boot auth
+    (async function bootAuth(){
+      const token = parseTokenFromHash();
+      if(token){
+        try{
+          const me = await fetchDiscordMe(token);
+          const role = getRoleById(me.id);
+          setSession({ token, me, role, at: new Date().toISOString() });
+        }catch{
+          clearSession();
+        }
+      }
+    })();
+
+    // ===== Ensure defaults =====
+    if(!localStorage.getItem(KEY_SELLERS_NAMES)) localStorage.setItem(KEY_SELLERS_NAMES, JSON.stringify(DEFAULT_SELLERS_NAMES));
+    if(!localStorage.getItem(KEY_SUPPLY)) localStorage.setItem(KEY_SUPPLY, JSON.stringify([]));
+    if(!localStorage.getItem(KEY_SUPPLY_PEND)) localStorage.setItem(KEY_SUPPLY_PEND, JSON.stringify([]));
+    if(!localStorage.getItem(KEY_ISSUES)) localStorage.setItem(KEY_ISSUES, JSON.stringify([]));
+    if(!localStorage.getItem(KEY_ORDERS)) localStorage.setItem(KEY_ORDERS, JSON.stringify([]));
+    if(!localStorage.getItem(KEY_PROOFS)) localStorage.setItem(KEY_PROOFS, JSON.stringify([]));
+    if(!localStorage.getItem(KEY_PAYMENTS_CFG)){
+      const cfg = {};
+      PAYMENT_METHODS.forEach(m=> cfg[m.key]=true);
+      localStorage.setItem(KEY_PAYMENTS_CFG, JSON.stringify(cfg));
+    }
+
+    // ===== UI refs =====
+    const loginPill = document.getElementById("loginPill");
+    const loginDiscordBtn = document.getElementById("loginDiscordBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    loginDiscordBtn.onclick = ()=> oauthLogin();
+    logoutBtn.onclick = ()=>{ clearSession(); location.reload(); };
+
+    function renderLoginStatus(){
+      const s = getSession();
+      if(!s || !s.me){
+        loginPill.textContent = "غير مسجل";
+        logoutBtn.classList.add("hidden");
+        return;
+      }
+      loginPill.textContent = `@${s.me.username} ✅`;
+      logoutBtn.classList.remove("hidden");
+    }
+
+    // ===== Pages / Nav (حسب الرتبة) =====
+    const nav = document.getElementById("nav");
+
     const pages = {
-      // public
       about: document.getElementById("page-about"),
       shop: document.getElementById("page-shop"),
       sellers: document.getElementById("page-sellers"),
@@ -828,184 +796,107 @@
       payments: document.getElementById("page-payments"),
       support: document.getElementById("page-support"),
 
-      // seller
-      "seller-orders": document.getElementById("page-seller-orders"),
-      "seller-supplies": document.getElementById("page-seller-supplies"),
+      seller_orders: document.getElementById("page-seller-orders"),
+      seller_supplies: document.getElementById("page-seller-supplies"),
 
-      // owner
-      "owner-supplies": document.getElementById("page-owner-supplies"),
-      "owner-members": document.getElementById("page-owner-members"),
-      "owner-issues": document.getElementById("page-owner-issues"),
-      "owner-payments": document.getElementById("page-owner-payments"),
+      owner_supplies: document.getElementById("page-owner-supplies"),
+      owner_members: document.getElementById("page-owner-members"),
+      owner_issues: document.getElementById("page-owner-issues"),
+      owner_payments: document.getElementById("page-owner-payments"),
     };
 
+    function hideAllPages(){
+      Object.values(pages).forEach(p=> p && p.classList.remove("active"));
+    }
     function setActivePage(key){
-      Object.values(pages).forEach(p => p.classList.remove("active"));
-      (pages[key] || pages.about).classList.add("active");
-      // active button highlight
-      document.querySelectorAll(".navbtn").forEach(b=>{
-        b.classList.toggle("active", b.dataset.page === key);
-      });
-
+      hideAllPages();
+      pages[key]?.classList.add("active");
+      document.querySelectorAll(".navbtn").forEach(b=> b.classList.toggle("active", b.dataset.page === key));
       history.replaceState(null, "", "#" + key);
-
       if (window.innerWidth <= 980){
         sidebar.classList.remove("open");
         overlay.classList.remove("show");
       }
     }
 
-    document.querySelectorAll(".navbtn").forEach(btn=>{
-      btn.addEventListener("click", ()=> setActivePage(btn.dataset.page));
-    });
+    function buildNav(){
+      const s = getSession();
+      const role = (s && s.me) ? s.role : "public";
 
-    // ================== ROLE UI (SHOW/HIDE NAV) ==================
-    const rolePill = document.getElementById("rolePill");
-    const sellerPill = document.getElementById("sellerPill");
-    const whoChip = document.getElementById("whoChip");
+      const publicLinks = [
+        { key:"about", icon:"ℹ️", t:"About us", d:"معلومات" },
+        { key:"shop", icon:"🛒", t:"Shop", d:"المنتجات + السلة" },
+        { key:"sellers", icon:"👤", t:"Sellers", d:"البائعين" },
+        { key:"proofs", icon:"✅", t:"Proofs", d:"طلبات اتسلمت" },
+        { key:"payments", icon:"💳", t:"Payments", d:"طرق الدفع" },
+        { key:"support", icon:"🛠️", t:"Support", d:"تقديم مشكلة" },
+      ];
 
-    const navPublic = document.getElementById("navPublic");
-    const navSeller = document.getElementById("navSeller");
-    const navOwner  = document.getElementById("navOwner");
+      const sellerLinks = [
+        { key:"seller_orders", icon:"📦", t:"Orders", d:"طلباتك" },
+        { key:"seller_supplies", icon:"➕", t:"Supplies", d:"إضافة منتجات (Pending)" },
+      ];
 
-    function applyRoleUI(){
-      const role = getRole();
-      const suser = getSellerUser();
+      const ownerLinks = [
+        { key:"owner_supplies", icon:"🧠", t:"Supplies", d:"تحكم + موافقات" },
+        { key:"owner_members", icon:"👑", t:"Members", d:"Sellers/Owners IDs" },
+        { key:"owner_issues", icon:"🧾", t:"Issues", d:"الشكاوي" },
+        { key:"owner_payments", icon:"💳", t:"Payments Status", d:"تفعيل/إيقاف" },
+      ];
 
-      rolePill.textContent = `Role: ${role}`;
-      whoChip.textContent = `Role: ${role}`;
+      let links = [...publicLinks];
+      if(role === "seller") links = [...publicLinks, ...sellerLinks];
+      if(role === "owner") links = [...publicLinks, ...sellerLinks, ...ownerLinks];
 
-      if (role === "seller"){
-        sellerPill.classList.remove("hidden");
-        sellerPill.textContent = `Seller: @${suser || "—"}`;
-      } else {
-        sellerPill.classList.add("hidden");
-      }
+      nav.innerHTML = links.map(l=>`
+        <button class="navbtn" data-page="${l.key}">
+          <div class="navicon">${l.icon}</div>
+          <div class="navtext"><div class="t">${l.t}</div><div class="d">${l.d}</div></div>
+        </button>
+      `).join("");
 
-      navPublic.classList.toggle("hidden", role !== "public");
-      navSeller.classList.toggle("hidden", role !== "seller");
-      navOwner.classList.toggle("hidden", role !== "owner");
-
-      // لو داخل seller/owner، نوديه تلقائي على أول صفحة بتاعته
-      const hash = (location.hash || "#about").replace("#","");
-      const allowed = getAllowedPagesForRole(role);
-
-      if (!allowed.includes(hash)){
-        if (role === "seller") setActivePage("seller-orders");
-        else if (role === "owner") setActivePage("owner-supplies");
-        else setActivePage("about");
-      } else {
-        setActivePage(hash);
-      }
-
-      renderAll();
+      nav.querySelectorAll(".navbtn").forEach(btn=>{
+        btn.addEventListener("click", ()=> setActivePage(btn.dataset.page));
+      });
     }
 
-    function getAllowedPagesForRole(role){
-      if (role === "public") return ["about","shop","sellers","proofs","payments","support"];
-      if (role === "seller") return ["seller-orders","seller-supplies"];
-      if (role === "owner") return ["owner-supplies","owner-members","owner-issues","owner-payments"];
-      return ["about"];
+    // ===== Data loaders =====
+    function loadSupplies(){ return safeJSONParse(localStorage.getItem(KEY_SUPPLY) || "[]", []); }
+    function saveSupplies(arr){ localStorage.setItem(KEY_SUPPLY, JSON.stringify(arr)); }
+
+    function loadPendingSupplies(){ return safeJSONParse(localStorage.getItem(KEY_SUPPLY_PEND) || "[]", []); }
+    function savePendingSupplies(arr){ localStorage.setItem(KEY_SUPPLY_PEND, JSON.stringify(arr)); }
+
+    function loadSellersNames(){
+      const raw = localStorage.getItem(KEY_SELLERS_NAMES);
+      const arr = raw ? safeJSONParse(raw, DEFAULT_SELLERS_NAMES) : DEFAULT_SELLERS_NAMES;
+      return Array.isArray(arr) && arr.length ? arr : DEFAULT_SELLERS_NAMES;
     }
+    function saveSellersNames(arr){ localStorage.setItem(KEY_SELLERS_NAMES, JSON.stringify(arr)); }
 
-    // ================== LOGIN MODAL ==================
-    const loginModal = document.getElementById("loginModal");
-    const openLogin = document.getElementById("openLogin");
-    const openLogin2 = document.getElementById("openLogin2");
-    const closeLogin = document.getElementById("closeLogin");
+    function loadOrders(){ return safeJSONParse(localStorage.getItem(KEY_ORDERS) || "[]", []); }
+    function saveOrders(arr){ localStorage.setItem(KEY_ORDERS, JSON.stringify(arr)); }
 
-    const loginRole = document.getElementById("loginRole");
-    const loginCode = document.getElementById("loginCode");
-    const sellerBox = document.getElementById("sellerBox");
-    const sellerUser = document.getElementById("sellerUser");
-    const loginNote = document.getElementById("loginNote");
-    const doLogin = document.getElementById("doLogin");
-    const doLogout = document.getElementById("doLogout");
-    const logout2 = document.getElementById("logout2");
+    function loadProofs(){ return safeJSONParse(localStorage.getItem(KEY_PROOFS) || "[]", []); }
+    function saveProofs(arr){ localStorage.setItem(KEY_PROOFS, JSON.stringify(arr)); }
 
-    function showLogin(v){
-      loginModal.classList.toggle("show", !!v);
-      loginNote.textContent = "";
-      loginCode.value = "";
-      if (v){
-        loginRole.value = "seller";
-        sellerBox.style.display = "block";
-      }
-    }
+    function loadIssues(){ return safeJSONParse(localStorage.getItem(KEY_ISSUES) || "[]", []); }
+    function saveIssues(arr){ localStorage.setItem(KEY_ISSUES, JSON.stringify(arr)); }
 
-    openLogin?.addEventListener("click", ()=> showLogin(true));
-    openLogin2?.addEventListener("click", ()=> showLogin(true));
-    closeLogin?.addEventListener("click", ()=> showLogin(false));
-    loginModal?.addEventListener("click", (e)=>{ if(e.target === loginModal) showLogin(false); });
+    function loadPaymentsCfg(){ return safeJSONParse(localStorage.getItem(KEY_PAYMENTS_CFG) || "{}", {}); }
+    function savePaymentsCfg(cfg){ localStorage.setItem(KEY_PAYMENTS_CFG, JSON.stringify(cfg)); }
 
-    loginRole.addEventListener("change", ()=>{
-      const r = loginRole.value;
-      sellerBox.style.display = (r === "seller") ? "block" : "none";
-    });
-
-    function logout(){
-      setRole("public");
-      setSellerUser("");
-      showLogin(false);
-      applyRoleUI();
-    }
-
-    doLogout.addEventListener("click", logout);
-    logout2.addEventListener("click", logout);
-
-    doLogin.addEventListener("click", ()=>{
-      const r = loginRole.value;
-      const code = (loginCode.value||"").trim();
-
-      if (r === "seller"){
-        const s = (sellerUser.value||"").trim().replace(/^@/,"");
-        const sellers = loadJSON(KEY_SELLERS, DEFAULT_SELLERS);
-        if (code !== SELLER_CODE){
-          loginNote.textContent = "❌ كود البائع غلط.";
-          return;
-        }
-        if (!s){
-          loginNote.textContent = "❌ اكتب يوزر البائع.";
-          return;
-        }
-        if (!sellers.includes(s)){
-          loginNote.textContent = "❌ اليوزر مش موجود في قائمة البائعين (Owner لازم يضيفه).";
-          return;
-        }
-        setRole("seller");
-        setSellerUser(s);
-        showLogin(false);
-        applyRoleUI();
-        return;
-      }
-
-      // Owner
-      const ownerKey = (localStorage.getItem(KEY_OWNER_KEY) || "").trim();
-      if (!ownerKey){
-        loginNote.textContent = "❌ Owner Key مش متحدد لسه. ادخل كـ Owner لازم الأول تحدده من Owner Panel → Members (Setup).";
-        return;
-      }
-      if (code !== ownerKey){
-        loginNote.textContent = "❌ Owner Key غلط.";
-        return;
-      }
-      setRole("owner");
-      setSellerUser("");
-      showLogin(false);
-      applyRoleUI();
-    });
-
-    // ================== PUBLIC: SELLERS ==================
+    // ===== Public: Sellers page =====
     const sellersGrid = document.getElementById("sellersGrid");
     const sellersCountChip = document.getElementById("sellersCountChip");
 
     function renderSellers(){
-      const sellers = loadJSON(KEY_SELLERS, DEFAULT_SELLERS);
+      const sellers = loadSellersNames();
       sellersCountChip.textContent = `عدد البائعين: ${sellers.length}`;
       sellersGrid.innerHTML = sellers.map(u=>`
         <div class="card">
           <h3>@${esc(u)}</h3>
-          <p>بائع معتمد داخل Voxa.</p>
+          <p>بائع معتمد داخل Voxa Store.</p>
           <div class="meta">
             <span class="tag ok">Verified</span>
             <span class="tag">24/7</span>
@@ -1014,83 +905,77 @@
       `).join("");
     }
 
-    // ================== PUBLIC: PROOFS ==================
-    const proofsGrid = document.getElementById("proofsGrid");
+    // ===== Public: Proofs =====
+    const proofsList = document.getElementById("proofsList");
     const proofsCountChip = document.getElementById("proofsCountChip");
+
     function renderProofs(){
-      const proofs = loadJSON(KEY_PROOFS, []);
-      proofsCountChip.textContent = `عدد الإثباتات: ${proofs.length}`;
-
-      if(!proofs.length){
-        proofsGrid.innerHTML = `<div class="emptybox">لا يوجد Proofs لسه.</div>`;
-        return;
-      }
-
-      proofsGrid.innerHTML = proofs.map(p=>`
-        <div class="card">
-          <h3>${esc(p.details)}</h3>
-          <p>
-            العميل: <b style="color:var(--text)">${esc(p.customer)}</b><br/>
-            استلمها: <b style="color:var(--text)">${esc(p.claimedBy||"—")}</b>
-          </p>
-          <div class="meta">
-            <span class="tag ok">Done</span>
-            <span class="tag">وقت: ${p.doneAt ? esc(new Date(p.doneAt).toLocaleString()) : "—"}</span>
+      const list = loadProofs();
+      proofsCountChip.textContent = `عدد: ${list.length}`;
+      proofsList.innerHTML = list.length ? list.map(p=>`
+        <div class="item">
+          <div class="itemTop">
+            <div class="itemTitle">${esc(p.details)}</div>
+            <span class="status s-done">done</span>
+          </div>
+          <div class="small" style="margin-top:6px">
+            العميل: <b style="color:var(--text)">${esc(p.customer)}</b> —
+            تواصل: <b style="color:var(--text)">${esc(p.contact)}</b><br/>
+            Seller: <b style="color:var(--text)">@${esc(p.seller || "—")}</b><br/>
+            وقت: ${new Date(p.at).toLocaleString()}
           </div>
         </div>
-      `).join("");
+      `).join("") : `<div class="small">لا يوجد Proofs.</div>`;
     }
 
-    // ================== PAYMENTS STATUS (PUBLIC VIEW) ==================
+    // ===== Payments (Public view uses enabled cfg) =====
     const paymentsGrid = document.getElementById("paymentsGrid");
-    const payCountChip = document.getElementById("payCountChip");
+    const coPay = document.getElementById("coPay");
 
-    function renderPaymentsPublic(){
-      const methods = loadJSON(KEY_PAY_STATUS, DEFAULT_PAY_METHODS);
-      const enabled = methods.filter(m=>m.enabled);
-      payCountChip.textContent = `المتاح: ${enabled.length} / ${methods.length}`;
+    function renderPayments(){
+      const cfg = loadPaymentsCfg();
+      const enabled = PAYMENT_METHODS.filter(m=> cfg[m.key] !== false);
 
       paymentsGrid.innerHTML = enabled.length ? enabled.map(m=>`
         <div class="card">
-          <h3>${esc(m.title)}</h3>
+          <h3>${esc(m.label)}</h3>
           <p>تواصل معنا قبل التحويل للتأكيد.</p>
           <div class="meta"><span class="tag ok">متاح</span></div>
         </div>
       `).join("") : `
         <div class="emptybox">
-          لا توجد طرق دفع مفعّلة حاليًا.
+          كل طرق الدفع مقفولة حاليًا. جرّب تاني بعدين.
         </div>
       `;
+
+      // checkout select
+      coPay.innerHTML = enabled.length
+        ? enabled.map(m=> `<option value="${esc(m.key)}">${esc(m.label)}</option>`).join("")
+        : `<option value="" disabled selected>طرق الدفع مقفولة</option>`;
     }
 
-    // ================== SHOP (APPROVED SUPPLIES ONLY) ==================
+    // ===== Shop / Cart =====
     const categoryTabs = document.getElementById("categoryTabs");
     const shopGrid = document.getElementById("shopGrid");
     const shopCountChip = document.getElementById("shopCountChip");
-    let activeCategory = CATEGORIES[0];
 
-    function loadApprovedSupplies(){
-      const arr = loadJSON(KEY_SUPPLY, []);
-      return Array.isArray(arr) ? arr : [];
-    }
-
-    // Cart
     const cartList = document.getElementById("cartList");
     const cartTotal = document.getElementById("cartTotal");
     const checkoutBtn = document.getElementById("checkoutBtn");
     const clearCartBtn = document.getElementById("clearCartBtn");
     const checkoutBox = document.getElementById("checkoutBox");
+
     const confirmOrderBtn = document.getElementById("confirmOrderBtn");
     const coName = document.getElementById("coName");
     const coContact = document.getElementById("coContact");
-    const coPay = document.getElementById("coPay");
     const coNote = document.getElementById("coNote");
 
+    let activeCategory = CATEGORIES[0];
+
     function loadCart(){
-      const arr = loadJSON(KEY_CART, []);
-      return Array.isArray(arr) ? arr : [];
+      return safeJSONParse(localStorage.getItem(KEY_CART) || "[]", []);
     }
-    function saveCart(arr){ saveJSON(KEY_CART, arr); }
+    function saveCart(arr){ localStorage.setItem(KEY_CART, JSON.stringify(arr)); }
     function cartTotalEGP(cart){
       return cart.reduce((sum,it)=> sum + (Number(it.price)||0) * (Number(it.qty)||1), 0);
     }
@@ -1098,20 +983,18 @@
     function renderCart(){
       const cart = loadCart();
       if(!cart.length){
-        cartList.innerHTML = "السلة فاضية.";
+        cartList.textContent = "السلة فاضية.";
         cartTotal.textContent = "الإجمالي: 0 EGP";
         return;
       }
-
       cartList.innerHTML = cart.map((it,idx)=>`
-        <div class="cartItem">
+        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:10px">
           <div>
             <b style="color:var(--text)">${esc(it.title)}</b>
             <span class="tag">${Number(it.price)||0} EGP</span>
             <span class="tag">x${Number(it.qty)||1}</span>
-            <span class="tag">Seller: @${esc(it.seller || "—")}</span>
           </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div class="actions">
             <button class="btn small" data-minus="${idx}">-</button>
             <button class="btn small" data-plus="${idx}">+</button>
             <button class="btn small danger" data-remove="${idx}">حذف</button>
@@ -1164,15 +1047,15 @@
         b.onclick=()=>{ activeCategory = b.dataset.cat; renderShop(); };
       });
 
-      const all = loadApprovedSupplies();
+      const all = loadSupplies();
       const items = all.filter(p => p.category === activeCategory);
-      shopCountChip.textContent = `Approved Products: ${all.length}`;
+      shopCountChip.textContent = `إجمالي المنتجات: ${all.length}`;
 
       if(!items.length){
         shopGrid.innerHTML = `
           <div class="emptybox">
             <b style="color:var(--text)">قسم: ${activeCategory}</b><br/>
-            مفيش منتجات في القسم ده.
+            مفيش منتجات في القسم ده لسه.
           </div>
         `;
         renderCart();
@@ -1187,7 +1070,7 @@
             <span class="tag">${Number(p.price)||0} EGP</span>
             <span class="tag">Seller: @${esc(p.seller || "—")}</span>
           </div>
-          <div class="actions">
+          <div class="actions" style="margin-top:12px">
             <button class="btn primary" data-buy="${esc(p.id)}">شراء</button>
             <button class="btn ok" data-add="${esc(p.id)}">إضافة للسلة</button>
           </div>
@@ -1197,7 +1080,7 @@
       shopGrid.querySelectorAll("[data-add]").forEach(btn=>{
         btn.onclick=()=>{
           const id = btn.dataset.add;
-          const prod = loadApprovedSupplies().find(x=>x.id===id);
+          const prod = loadSupplies().find(x=>x.id===id);
           if(!prod) return;
           addToCart({ id: prod.id, title: prod.title, price: Number(prod.price)||0, seller: prod.seller||"", category: prod.category });
           alert("✅ اتضاف للسلة");
@@ -1207,10 +1090,10 @@
       shopGrid.querySelectorAll("[data-buy]").forEach(btn=>{
         btn.onclick=()=>{
           const id = btn.dataset.buy;
-          const prod = loadApprovedSupplies().find(x=>x.id===id);
+          const prod = loadSupplies().find(x=>x.id===id);
           if(!prod) return;
           addToCart({ id: prod.id, title: prod.title, price: Number(prod.price)||0, seller: prod.seller||"", category: prod.category });
-          checkoutBox.style.display = "block";
+          checkoutBox.classList.remove("hidden");
           window.scrollTo({top: document.body.scrollHeight, behavior:"smooth"});
         };
       });
@@ -1218,22 +1101,13 @@
       renderCart();
     }
 
-    // payments select in checkout (enabled only)
-    function renderCheckoutPayments(){
-      const methods = loadJSON(KEY_PAY_STATUS, DEFAULT_PAY_METHODS);
-      const enabled = methods.filter(m=>m.enabled);
-      coPay.innerHTML = enabled.map(m=>`<option value="${esc(m.id)}">${esc(m.title)}</option>`).join("");
-    }
-
-    // checkout actions
     clearCartBtn.onclick = ()=>{
       saveCart([]);
       renderCart();
       coNote.textContent = "";
     };
-
     checkoutBtn.onclick = ()=>{
-      checkoutBox.style.display = (checkoutBox.style.display === "block") ? "none" : "block";
+      checkoutBox.classList.toggle("hidden");
       coNote.textContent = "";
     };
 
@@ -1243,38 +1117,46 @@
       const pay = coPay.value;
 
       const cart = loadCart();
-      if(!cart.length){ coNote.textContent = "❌ السلة فاضية."; return; }
-      if(!name || !contact){ coNote.textContent = "❌ اكتب الاسم ووسيلة التواصل."; return; }
+      if(!cart.length){
+        coNote.textContent = "❌ السلة فاضية.";
+        return;
+      }
+      if(!name || !contact){
+        coNote.textContent = "❌ اكتب الاسم ووسيلة التواصل.";
+        return;
+      }
+      if(!pay){
+        coNote.textContent = "❌ طرق الدفع مقفولة.";
+        return;
+      }
 
       const total = cartTotalEGP(cart);
       const details = cart.map(x=>`${x.title} x${x.qty}`).join(" | ");
 
-      const orders = loadJSON(KEY_ORDERS, []);
+      // assign seller: لو عنصر واحد => seller بتاعه، لو اكتر => mixed
+      let seller = cart.length === 1 ? (cart[0].seller||"") : "mixed";
+
+      const orders = loadOrders();
       orders.unshift({
         id: Date.now().toString(),
         at: new Date().toISOString(),
         customer: name,
         contact: contact,
-        pay: pay,
-        total: total,
-        items: cart.map(x=>({ id:x.id, title:x.title, qty:x.qty, price:x.price, seller:x.seller, category:x.category })),
+        seller: seller,
         details: `${details} | Pay:${pay} | Total:${total} EGP`,
-        status: "open",
-        claimState: "unclaimed",
-        claimedBy: "",
-        claimedAt: ""
+        status: "open"
       });
-      saveJSON(KEY_ORDERS, orders);
+      saveOrders(orders);
 
       saveCart([]);
       renderCart();
 
       coName.value = "";
       coContact.value = "";
-      coNote.textContent = "✅ تم إنشاء الطلب! (البائعين/الأونرات هيشوفوه في Orders).";
+      coNote.textContent = "✅ تم إنشاء الطلب! هيتشاف للبائع/الأونر حسب الصلاحية.";
     };
 
-    // ================== SUPPORT -> ISSUES ==================
+    // ===== Support -> Issues =====
     const issueForm = document.getElementById("issueForm");
     const issueNote = document.getElementById("issueNote");
 
@@ -1291,394 +1173,394 @@
         status: "open",
         replies: []
       };
-      const all = loadJSON(KEY_ISSUES, []);
+      const all = loadIssues();
       all.unshift(issue);
-      saveJSON(KEY_ISSUES, all);
+      saveIssues(all);
 
-      issueNote.textContent = "✅ تم إرسال المشكلة. هتظهر للأونرات في Issues.";
+      issueNote.textContent = "✅ تم إرسال المشكلة.";
       issueForm.reset();
-      setTimeout(()=> issueNote.textContent = "", 3000);
+      setTimeout(()=> issueNote.textContent = "", 3500);
     });
 
-    // ================== SELLER: ORDERS ==================
+    // ===== Seller Panel =====
     const sellerOrdersList = document.getElementById("sellerOrdersList");
     const sellerOrdersChip = document.getElementById("sellerOrdersChip");
 
-    function getSellerOrders(){
-      const s = getSellerUser();
-      const orders = loadJSON(KEY_ORDERS, []);
-      // الطلب يعتبر للبائع لو فيه item seller بتاعه
-      return orders.filter(o => Array.isArray(o.items) && o.items.some(it => (it.seller||"") === s));
+    function statusHTML(s){
+      if (s==="open") return `<span class="status s-open">open</span>`;
+      if (s==="done") return `<span class="status s-done">done</span>`;
+      return `<span class="status s-closed">closed</span>`;
     }
 
     function renderSellerOrders(){
-      const s = getSellerUser();
-      const orders = getSellerOrders();
-      sellerOrdersChip.textContent = `@${s || "—"} — Orders: ${orders.length}`;
-
-      if (!orders.length){
-        sellerOrdersList.innerHTML = `<div class="emptybox">لا يوجد طلبات للبائع ده.</div>`;
+      const s = getSession();
+      const role = (s && s.me) ? s.role : "public";
+      if(role !== "seller" && role !== "owner"){
+        sellerOrdersList.innerHTML = `<div class="small">لا تملك صلاحية.</div>`;
+        sellerOrdersChip.textContent = "—";
         return;
       }
 
-      sellerOrdersList.innerHTML = orders.map(o=>{
-        const claimState = o.claimState || (o.claimedBy ? "claimed" : "unclaimed");
-        const isClaimed = (claimState === "claimed");
+      // seller username للفلترة: هنخليها username بتاع Discord كـ fallback
+      const myName = s?.me?.username || "";
+      const orders = loadOrders();
 
-        // عرض items الخاصة بالبائع فقط
-        const myItems = (o.items||[]).filter(it => (it.seller||"") === s)
-          .map(it=> `${it.title} x${it.qty}`).join(" | ");
+      // seller يشوف اللي seller==username أو mixed (حسب رغبتك). هنا هنشوف seller==username فقط:
+      const mine = orders.filter(o => (o.seller||"").toLowerCase() === myName.toLowerCase());
 
-        const link = normalizeDiscordLink(o.contact);
-        const commBtn = link
-          ? `<a class="btn small" href="${link}" target="_blank" rel="noopener">فتح تواصل</a>`
-          : `<button class="btn small" data-copy-contact="${esc(o.contact)}">نسخ التواصل</button>`;
+      sellerOrdersChip.textContent = `عدد: ${mine.length}`;
 
-        return `
-          <div class="item">
-            <div class="itemTop">
-              <div class="itemTitle">${esc(myItems)}</div>
-              ${statusHTML(o.status || "open")}
-            </div>
-            <div class="muted" style="margin-top:6px">
-              العميل: <b style="color:var(--text)">${esc(o.customer)}</b> —
-              تواصل: <b style="color:var(--text)">${esc(o.contact)}</b><br/>
-              إجمالي الطلب: <b style="color:var(--text)">${Number(o.total)||0} EGP</b> —
-              Pay: <b style="color:var(--text)">${esc(o.pay||"—")}</b><br/>
-              وقت: ${new Date(o.at).toLocaleString()}<br/>
-              ${isClaimed ? `مستلم بواسطة: <b style="color:var(--text)">${esc(o.claimedBy||"—")}</b>` : `غير مستلم`}
-            </div>
-
-            <div class="actions">
-              ${!isClaimed ? `<button class="btn ok small" data-claim="${o.id}">استلام</button>` : ``}
-              ${isClaimed ? `<button class="btn ok small" data-done="${o.id}">done</button>` : ``}
-              ${commBtn}
-            </div>
+      sellerOrdersList.innerHTML = mine.length ? mine.map(o=>`
+        <div class="item">
+          <div class="itemTop">
+            <div class="itemTitle">${esc(o.details)}</div>
+            ${statusHTML(o.status)}
           </div>
-        `;
-      }).join("");
+          <div class="small" style="margin-top:6px">
+            العميل: <b style="color:var(--text)">${esc(o.customer)}</b> —
+            تواصل: <b style="color:var(--text)">${esc(o.contact)}</b><br/>
+            وقت: ${new Date(o.at).toLocaleString()}
+          </div>
+          <div class="actions">
+            <button class="btn ok small" data-seller-contact="${esc(o.contact)}">تواصل</button>
+            <button class="btn primary small" data-seller-done="${o.id}">done</button>
+          </div>
+        </div>
+      `).join("") : `<div class="small">لا يوجد Orders لك.</div>`;
 
-      sellerOrdersList.querySelectorAll("[data-copy-contact]").forEach(btn=>{
-        btn.addEventListener("click", ()=> copyText(btn.getAttribute("data-copy-contact")||""));
-      });
-
-      // claim
-      sellerOrdersList.querySelectorAll("[data-claim]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const id = btn.getAttribute("data-claim");
-          const ordersAll = loadJSON(KEY_ORDERS, []);
-          const it = ordersAll.find(x=>x.id===id);
-          if(!it) return;
-
-          it.claimState = "claimed";
-          it.claimedBy = `seller:@${getSellerUser()}`;
-          it.claimedAt = new Date().toISOString();
-
-          saveJSON(KEY_ORDERS, ordersAll);
-
-          const link = normalizeDiscordLink(it.contact);
-          if(link) window.open(link, "_blank", "noopener");
-
-          renderAll();
-        });
-      });
-
-      // done -> move to proofs
-      sellerOrdersList.querySelectorAll("[data-done]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const id = btn.getAttribute("data-done");
-          const ordersAll = loadJSON(KEY_ORDERS, []);
-          const it = ordersAll.find(x=>x.id===id);
-          if(!it) return;
-
-          const claimState = it.claimState || (it.claimedBy ? "claimed" : "unclaimed");
-          if(claimState !== "claimed"){
-            alert("❌ لازم تعمل استلام الأول.");
+      // تواصل (يفتح DM لو كان contact = userId أو username) — هنفتح Discord app كـ best-effort:
+      sellerOrdersList.querySelectorAll("[data-seller-contact]").forEach(b=>{
+        b.onclick=()=>{
+          const contact = b.dataset.sellerContact || "";
+          // لو المستخدم حاطط ID: افتح user profile
+          if(/^\d{10,30}$/.test(contact.trim())){
+            window.open(`https://discord.com/users/${contact.trim()}`, "_blank");
             return;
           }
+          alert("حط Discord ID في خانة التواصل عشان فتح DM يبقى مباشر ✅");
+        };
+      });
 
-          // Move whole order to proofs (زي النظام القديم)
-          const newOrders = ordersAll.filter(x=>x.id!==id);
-          saveJSON(KEY_ORDERS, newOrders);
+      // done => ننقل للـ proofs
+      sellerOrdersList.querySelectorAll("[data-seller-done]").forEach(b=>{
+        b.onclick=()=>{
+          const id = b.dataset.sellerDone;
+          const orders2 = loadOrders();
+          const it = orders2.find(x=>x.id===id);
+          if(!it) return;
+          it.status = "done";
+          saveOrders(orders2);
 
-          const proofs = loadJSON(KEY_PROOFS, []);
-          proofs.unshift({ ...it, status:"done", doneAt:new Date().toISOString() });
-          saveJSON(KEY_PROOFS, proofs);
+          const proofs = loadProofs();
+          proofs.unshift({ ...it, movedAt: new Date().toISOString() });
+          saveProofs(proofs);
+
+          // optional: remove from orders after done
+          const filtered = orders2.filter(x=>x.id!==id);
+          saveOrders(filtered);
 
           renderAll();
-        });
+        };
       });
     }
 
-    // ================== SELLER: SUPPLIES (PENDING) ==================
-    const sellerAddSupplyForm = document.getElementById("sellerAddSupplyForm");
+    // Seller supplies pending
+    const sellerSupCategory = document.getElementById("sellerSupCategory");
+    const sellerSupTitle = document.getElementById("sellerSupTitle");
+    const sellerSupPrice = document.getElementById("sellerSupPrice");
+    const sellerSupDesc = document.getElementById("sellerSupDesc");
+    const sellerSupplyForm = document.getElementById("sellerSupplyForm");
     const sellerSupNote = document.getElementById("sellerSupNote");
     const sellerPendingList = document.getElementById("sellerPendingList");
-    const sellerPendingChip = document.getElementById("sellerPendingChip");
 
-    function getSellerPending(){
-      const s = getSellerUser();
-      const pend = loadJSON(KEY_SUPPLY_PENDING, []);
-      return pend.filter(p => (p.bySeller||"") === s);
+    function fillCategorySelect(sel){
+      sel.innerHTML = CATEGORIES.map(c=> `<option value="${c}">${c}</option>`).join("");
     }
 
     function renderSellerPending(){
-      const list = getSellerPending();
-      sellerPendingChip.textContent = `Pending: ${list.length}`;
-
-      if(!list.length){
-        sellerPendingList.innerHTML = `<div class="emptybox">مفيش منتجات Pending ليك.</div>`;
+      const s = getSession();
+      const role = (s && s.me) ? s.role : "public";
+      if(role !== "seller" && role !== "owner"){
+        sellerPendingList.innerHTML = `<div class="small">لا تملك صلاحية.</div>`;
         return;
       }
-
-      sellerPendingList.innerHTML = list.map(p=>`
+      const myName = s?.me?.username || "";
+      const pend = loadPendingSupplies().filter(x=> (x.by||"").toLowerCase() === myName.toLowerCase());
+      sellerPendingList.innerHTML = pend.length ? pend.map(p=>`
         <div class="item">
           <div class="itemTop">
-            <div class="itemTitle">${esc(p.title)} <span class="muted">(${esc(p.category)})</span></div>
+            <div class="itemTitle">${esc(p.title)} <span class="small">(${esc(p.category)})</span></div>
             <span class="status s-open">pending</span>
           </div>
-          <div class="muted" style="margin-top:6px">
-            السعر: <b style="color:var(--text)">${Number(p.price)||0} EGP</b><br/>
-            الوصف: ${esc(p.desc)}<br/>
-            وقت الإرسال: ${p.at ? new Date(p.at).toLocaleString() : "—"}
+          <div class="small" style="margin-top:6px">
+            Price: <b style="color:var(--text)">${Number(p.price)||0} EGP</b><br/>
+            ${esc(p.desc)}
           </div>
         </div>
-      `).join("");
+      `).join("") : `<div class="small">لا يوجد Pending.</div>`;
     }
 
-    sellerAddSupplyForm.addEventListener("submit", (e)=>{
+    sellerSupplyForm.addEventListener("submit", (e)=>{
       e.preventDefault();
-      if (getRole() !== "seller"){
-        sellerSupNote.textContent = "❌ لازم تدخل كبائع.";
+      const s = getSession();
+      if(!s || !s.me || (s.role !== "seller" && s.role !== "owner")){
+        sellerSupNote.textContent = "❌ لازم تبقى Seller.";
         return;
       }
 
-      const fd = new FormData(sellerAddSupplyForm);
-      const category = String(fd.get("category")||"").trim();
-      const title = String(fd.get("title")||"").trim();
-      const price = Number(fd.get("price")||0);
-      const desc = String(fd.get("desc")||"").trim();
+      const cat = sellerSupCategory.value;
+      const title = (sellerSupTitle.value||"").trim();
+      const price = Number(sellerSupPrice.value||0);
+      const desc = (sellerSupDesc.value||"").trim();
+      const by = s.me.username;
 
-      if (!CATEGORIES.includes(category) || !title || !price || !desc){
-        sellerSupNote.textContent = "❌ اكتب كل البيانات صح.";
+      if(!CATEGORIES.includes(cat) || !title || !price || !desc){
+        sellerSupNote.textContent = "❌ املا كل البيانات.";
         return;
       }
 
-      const pend = loadJSON(KEY_SUPPLY_PENDING, []);
-      pend.unshift({
-        id: uid("pend"),
-        at: new Date().toISOString(),
-        category, title, price, desc,
-        bySeller: getSellerUser()
-      });
-      saveJSON(KEY_SUPPLY_PENDING, pend);
+      const pend = loadPendingSupplies();
+      pend.unshift({ id: uid("pend"), at: new Date().toISOString(), category: cat, title, price, desc, by });
+      savePendingSupplies(pend);
 
-      sellerAddSupplyForm.reset();
-      sellerSupNote.textContent = "✅ اتبعتت Pending للأونرات.";
+      sellerSupTitle.value=""; sellerSupPrice.value=""; sellerSupDesc.value="";
+      sellerSupNote.textContent = "✅ اتبعت للأونر للموافقة.";
       setTimeout(()=> sellerSupNote.textContent="", 2500);
 
       renderAll();
     });
 
-    // ================== OWNER: SUPPLIES (APPROVE + MANAGE) ==================
-    const ownerPendingSupplies = document.getElementById("ownerPendingSupplies");
-    const ownerApprovedSupplies = document.getElementById("ownerApprovedSupplies");
+    // ===== Owner Panel =====
+    const ownSupCategory = document.getElementById("ownSupCategory");
+    const ownSupTitle = document.getElementById("ownSupTitle");
+    const ownSupPrice = document.getElementById("ownSupPrice");
+    const ownSupSeller = document.getElementById("ownSupSeller");
+    const ownSupDesc = document.getElementById("ownSupDesc");
+    const ownAddSupplyBtn = document.getElementById("ownAddSupplyBtn");
+    const ownSupNote = document.getElementById("ownSupNote");
+    const ownerPendingList = document.getElementById("ownerPendingList");
+    const ownerSuppliesList = document.getElementById("ownerSuppliesList");
     const ownerSupChip = document.getElementById("ownerSupChip");
 
-    function renderOwnerSupplies(){
-      const pend = loadJSON(KEY_SUPPLY_PENDING, []);
-      const appr = loadJSON(KEY_SUPPLY, []);
-      ownerSupChip.textContent = `Pending: ${pend.length} — Approved: ${appr.length}`;
+    function isOwner(){
+      const s = getSession();
+      return !!(s && s.me && s.role === "owner");
+    }
 
-      ownerPendingSupplies.innerHTML = pend.length ? pend.map(p=>`
+    function renderOwnerSupplies(){
+      if(!isOwner()){
+        ownerPendingList.innerHTML = `<div class="small">لا تملك صلاحية.</div>`;
+        ownerSuppliesList.innerHTML = `<div class="small">لا تملك صلاحية.</div>`;
+        ownerSupChip.textContent = "—";
+        return;
+      }
+
+      const approved = loadSupplies();
+      const pend = loadPendingSupplies();
+
+      ownerSupChip.textContent = `Approved: ${approved.length} — Pending: ${pend.length}`;
+
+      ownerPendingList.innerHTML = pend.length ? pend.map(p=>`
         <div class="item">
           <div class="itemTop">
-            <div class="itemTitle">${esc(p.title)} <span class="muted">(${esc(p.category)})</span></div>
+            <div class="itemTitle">${esc(p.title)} <span class="small">(${esc(p.category)})</span></div>
             <span class="status s-open">pending</span>
           </div>
-          <div class="muted" style="margin-top:6px">
-            Seller: <b style="color:var(--text)">@${esc(p.bySeller||"—")}</b><br/>
-            السعر: <b style="color:var(--text)">${Number(p.price)||0} EGP</b><br/>
-            الوصف: ${esc(p.desc)}<br/>
-            وقت: ${p.at ? new Date(p.at).toLocaleString() : "—"}
+          <div class="small" style="margin-top:6px">
+            By: <b style="color:var(--text)">@${esc(p.by||"")}</b><br/>
+            Price: <b style="color:var(--text)">${Number(p.price)||0} EGP</b><br/>
+            ${esc(p.desc)}
           </div>
           <div class="actions">
             <button class="btn ok small" data-approve="${p.id}">Approve</button>
             <button class="btn danger small" data-reject="${p.id}">Reject</button>
           </div>
         </div>
-      `).join("") : `<div class="muted">لا يوجد Pending.</div>`;
+      `).join("") : `<div class="small">لا يوجد Pending.</div>`;
 
-      ownerApprovedSupplies.innerHTML = appr.length ? appr.map(p=>`
+      ownerSuppliesList.innerHTML = approved.length ? approved.map(p=>`
         <div class="item">
           <div class="itemTop">
-            <div class="itemTitle">${esc(p.title)} <span class="muted">(${esc(p.category)})</span></div>
+            <div class="itemTitle">${esc(p.title)} <span class="small">(${esc(p.category)})</span></div>
             <span class="status s-done">${Number(p.price)||0} EGP</span>
           </div>
-          <div class="muted" style="margin-top:6px">
+          <div class="small" style="margin-top:6px">
             Seller: <b style="color:var(--text)">@${esc(p.seller||"—")}</b><br/>
             ${esc(p.desc)}
           </div>
           <div class="actions">
-            <button class="btn small danger" data-del-approved="${p.id}">حذف</button>
+            <button class="btn danger small" data-del-sup="${p.id}">حذف</button>
           </div>
         </div>
-      `).join("") : `<div class="muted">لا يوجد Approved Supplies.</div>`;
+      `).join("") : `<div class="small">لا يوجد Supplies.</div>`;
 
-      // Approve
-      ownerPendingSupplies.querySelectorAll("[data-approve]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const id = btn.getAttribute("data-approve");
-          const pend2 = loadJSON(KEY_SUPPLY_PENDING, []);
+      ownerPendingList.querySelectorAll("[data-approve]").forEach(b=>{
+        b.onclick=()=>{
+          const id = b.dataset.approve;
+          const pend2 = loadPendingSupplies();
           const it = pend2.find(x=>x.id===id);
           if(!it) return;
 
-          // remove from pending
-          saveJSON(KEY_SUPPLY_PENDING, pend2.filter(x=>x.id!==id));
-
-          // add to approved
-          const appr2 = loadJSON(KEY_SUPPLY, []);
-          appr2.unshift({
+          const approved2 = loadSupplies();
+          approved2.unshift({
             id: uid("p"),
             at: new Date().toISOString(),
             category: it.category,
             title: it.title,
-            price: Number(it.price)||0,
-            seller: it.bySeller || "",
+            price: it.price,
+            seller: it.by || "",
             desc: it.desc
           });
-          saveJSON(KEY_SUPPLY, appr2);
+          saveSupplies(approved2);
+
+          const filtered = pend2.filter(x=>x.id!==id);
+          savePendingSupplies(filtered);
 
           renderAll();
-        });
+        };
       });
 
-      // Reject
-      ownerPendingSupplies.querySelectorAll("[data-reject]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const id = btn.getAttribute("data-reject");
-          const pend2 = loadJSON(KEY_SUPPLY_PENDING, []);
-          saveJSON(KEY_SUPPLY_PENDING, pend2.filter(x=>x.id!==id));
+      ownerPendingList.querySelectorAll("[data-reject]").forEach(b=>{
+        b.onclick=()=>{
+          const id = b.dataset.reject;
+          const pend2 = loadPendingSupplies().filter(x=>x.id!==id);
+          savePendingSupplies(pend2);
           renderAll();
-        });
+        };
       });
 
-      // Delete approved
-      ownerApprovedSupplies.querySelectorAll("[data-del-approved]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const id = btn.getAttribute("data-del-approved");
-          const appr2 = loadJSON(KEY_SUPPLY, []).filter(x=>x.id!==id);
-          saveJSON(KEY_SUPPLY, appr2);
+      ownerSuppliesList.querySelectorAll("[data-del-sup]").forEach(b=>{
+        b.onclick=()=>{
+          const id = b.dataset.delSup;
+          const approved2 = loadSupplies().filter(x=>x.id!==id);
+          saveSupplies(approved2);
           renderAll();
-        });
+        };
       });
     }
 
-    // ================== OWNER: MEMBERS ==================
-    const addSellerInput = document.getElementById("addSellerInput");
-    const addSellerBtn = document.getElementById("addSellerBtn");
-    const ownersSellersList = document.getElementById("ownersSellersList");
-
-    const addOwnerInput = document.getElementById("addOwnerInput");
-    const addOwnerBtn = document.getElementById("addOwnerBtn");
-    const ownersList = document.getElementById("ownersList");
-
-    const membersChip = document.getElementById("membersChip");
-
-    const ownerKeyInput = document.getElementById("ownerKeyInput");
-    const saveOwnerKeyBtn = document.getElementById("saveOwnerKeyBtn");
-    const ownerKeyNote = document.getElementById("ownerKeyNote");
-
-    function renderMembers(){
-      const sellers = loadJSON(KEY_SELLERS, DEFAULT_SELLERS);
-      const owners  = loadJSON(KEY_OWNERS, DEFAULT_OWNERS);
-      membersChip.textContent = `Sellers: ${sellers.length} — Owners: ${owners.length}`;
-
-      ownersSellersList.innerHTML = sellers.length ? sellers.map(s=>`
-        <div class="item">
-          <div class="itemTop">
-            <div class="itemTitle">@${esc(s)}</div>
-            <span class="status s-done">seller</span>
-          </div>
-          <div class="actions">
-            <button class="btn danger small" data-del-seller="${esc(s)}">حذف</button>
-          </div>
-        </div>
-      `).join("") : `<div class="muted">لا يوجد Sellers.</div>`;
-
-      ownersList.innerHTML = owners.length ? owners.map(o=>`
-        <div class="item">
-          <div class="itemTop">
-            <div class="itemTitle">${esc(o)}</div>
-            <span class="status s-done">owner</span>
-          </div>
-          <div class="actions">
-            <button class="btn danger small" data-del-owner="${esc(o)}">حذف</button>
-          </div>
-        </div>
-      `).join("") : `<div class="muted">لا يوجد Owners.</div>`;
-
-      ownersSellersList.querySelectorAll("[data-del-seller]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const u = btn.getAttribute("data-del-seller");
-          const arr = loadJSON(KEY_SELLERS, DEFAULT_SELLERS).filter(x=>x!==u);
-          saveJSON(KEY_SELLERS, arr);
-          renderAll();
-        });
-      });
-
-      ownersList.querySelectorAll("[data-del-owner]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const u = btn.getAttribute("data-del-owner");
-          const arr = loadJSON(KEY_OWNERS, DEFAULT_OWNERS).filter(x=>x!==u);
-          saveJSON(KEY_OWNERS, arr);
-          renderAll();
-        });
-      });
-
-      const ok = (localStorage.getItem(KEY_OWNER_KEY)||"").trim();
-      ownerKeyNote.textContent = ok ? `✅ Owner Key موجود (مش هنظهره هنا).` : `⚠️ Owner Key مش متحدد لسه.`;
-    }
-
-    addSellerBtn.addEventListener("click", ()=>{
-      const u = (addSellerInput.value||"").trim().replace(/^@/,"");
-      if(!u) return;
-      const arr = loadJSON(KEY_SELLERS, DEFAULT_SELLERS);
-      if(!arr.includes(u)) arr.unshift(u);
-      saveJSON(KEY_SELLERS, arr);
-      addSellerInput.value = "";
-      renderAll();
-    });
-
-    addOwnerBtn.addEventListener("click", ()=>{
-      const u = (addOwnerInput.value||"").trim();
-      if(!u) return;
-      const arr = loadJSON(KEY_OWNERS, DEFAULT_OWNERS);
-      if(!arr.includes(u)) arr.unshift(u);
-      saveJSON(KEY_OWNERS, arr);
-      addOwnerInput.value = "";
-      renderAll();
-    });
-
-    saveOwnerKeyBtn.addEventListener("click", ()=>{
-      const k = (ownerKeyInput.value||"").trim();
-      if(!k){
-        ownerKeyNote.textContent = "❌ اكتب Owner Key.";
+    ownAddSupplyBtn.onclick = ()=>{
+      if(!isOwner()){
+        ownSupNote.textContent = "❌ لا تملك صلاحية.";
         return;
       }
-      localStorage.setItem(KEY_OWNER_KEY, k);
-      ownerKeyInput.value = "";
-      ownerKeyNote.textContent = "✅ تم حفظ Owner Key.";
-      setTimeout(()=> renderAll(), 200);
-    });
+      const cat = ownSupCategory.value;
+      const title = (ownSupTitle.value||"").trim();
+      const price = Number(ownSupPrice.value||0);
+      const seller = (ownSupSeller.value||"").trim().replace(/^@/,"");
+      const desc = (ownSupDesc.value||"").trim();
 
-    // ================== OWNER: ISSUES ==================
+      if(!CATEGORIES.includes(cat) || !title || !price || !desc){
+        ownSupNote.textContent = "❌ املا كل البيانات.";
+        return;
+      }
+
+      const approved = loadSupplies();
+      approved.unshift({ id: uid("p"), at:new Date().toISOString(), category:cat, title, price, seller, desc });
+      saveSupplies(approved);
+
+      ownSupTitle.value=""; ownSupPrice.value=""; ownSupSeller.value=""; ownSupDesc.value="";
+      ownSupNote.textContent = "✅ تم إضافة المنتج.";
+      setTimeout(()=> ownSupNote.textContent="", 2500);
+
+      renderAll();
+    };
+
+    // Owner members
+    const addSellerIdInput = document.getElementById("addSellerIdInput");
+    const addSellerIdBtn = document.getElementById("addSellerIdBtn");
+    const sellerIdsList = document.getElementById("sellerIdsList");
+
+    const addOwnerIdInput = document.getElementById("addOwnerIdInput");
+    const addOwnerIdBtn = document.getElementById("addOwnerIdBtn");
+    const ownerIdsList = document.getElementById("ownerIdsList");
+
+    function renderMembers(){
+      if(!isOwner()){
+        sellerIdsList.innerHTML = `<div class="small">لا تملك صلاحية.</div>`;
+        ownerIdsList.innerHTML = `<div class="small">لا تملك صلاحية.</div>`;
+        return;
+      }
+      const sellersIds = safeJSONParse(localStorage.getItem(KEY_SELLERS_IDS) || "[]", []);
+      const ownersIds = safeJSONParse(localStorage.getItem(KEY_OWNERS) || "[]", []);
+
+      sellerIdsList.innerHTML = sellersIds.length ? sellersIds.map(id=>`
+        <div class="item">
+          <div class="itemTop">
+            <div class="itemTitle">${esc(id)}</div>
+            <span class="status s-done">seller id</span>
+          </div>
+          <div class="actions">
+            <button class="btn danger small" data-del-sellerid="${esc(id)}">حذف</button>
+          </div>
+        </div>
+      `).join("") : `<div class="small">لا يوجد Sellers IDs.</div>`;
+
+      ownerIdsList.innerHTML = ownersIds.length ? ownersIds.map(id=>`
+        <div class="item">
+          <div class="itemTop">
+            <div class="itemTitle">${esc(id)}</div>
+            <span class="status s-done">owner id</span>
+          </div>
+          <div class="actions">
+            <button class="btn danger small" data-del-ownerid="${esc(id)}">حذف</button>
+          </div>
+        </div>
+      `).join("") : `<div class="small">لا يوجد Owners IDs.</div>`;
+
+      sellerIdsList.querySelectorAll("[data-del-sellerid]").forEach(b=>{
+        b.onclick=()=>{
+          const id = b.dataset.delSellerid;
+          const arr = safeJSONParse(localStorage.getItem(KEY_SELLERS_IDS) || "[]", []).filter(x=>x!==id);
+          localStorage.setItem(KEY_SELLERS_IDS, JSON.stringify(arr));
+          renderAll();
+        };
+      });
+
+      ownerIdsList.querySelectorAll("[data-del-ownerid]").forEach(b=>{
+        b.onclick=()=>{
+          const id = b.dataset.delOwnerid;
+          const arr = safeJSONParse(localStorage.getItem(KEY_OWNERS) || "[]", []).filter(x=>x!==id);
+          localStorage.setItem(KEY_OWNERS, JSON.stringify(arr));
+          renderAll();
+        };
+      });
+    }
+
+    addSellerIdBtn.onclick = ()=>{
+      if(!isOwner()) return;
+      const id = (addSellerIdInput.value||"").trim();
+      if(!/^\d{10,30}$/.test(id)) return alert("حط Discord ID صحيح");
+      const arr = safeJSONParse(localStorage.getItem(KEY_SELLERS_IDS) || "[]", []);
+      if(!arr.includes(id)) arr.unshift(id);
+      localStorage.setItem(KEY_SELLERS_IDS, JSON.stringify(arr));
+      addSellerIdInput.value="";
+      renderAll();
+    };
+
+    addOwnerIdBtn.onclick = ()=>{
+      if(!isOwner()) return;
+      const id = (addOwnerIdInput.value||"").trim();
+      if(!/^\d{10,30}$/.test(id)) return alert("حط Discord ID صحيح");
+      const arr = safeJSONParse(localStorage.getItem(KEY_OWNERS) || "[]", []);
+      if(!arr.includes(id)) arr.unshift(id);
+      localStorage.setItem(KEY_OWNERS, JSON.stringify(arr));
+      addOwnerIdInput.value="";
+      renderAll();
+    };
+
+    // Owner issues
     const issuesList = document.getElementById("issuesList");
     const issuesChip = document.getElementById("issuesChip");
 
     function renderIssues(){
-      const list = loadJSON(KEY_ISSUES, []);
-      issuesChip.textContent = `Issues: ${list.length}`;
+      if(!isOwner()){
+        issuesList.innerHTML = `<div class="small">لا تملك صلاحية.</div>`;
+        issuesChip.textContent = "—";
+        return;
+      }
+      const list = loadIssues();
+      issuesChip.textContent = `عدد: ${list.length}`;
 
       issuesList.innerHTML = list.length ? list.map(i=>`
         <div class="item">
@@ -1686,7 +1568,7 @@
             <div class="itemTitle">Issue: ${esc(i.type)}</div>
             ${statusHTML(i.status)}
           </div>
-          <div class="muted" style="margin-top:6px">
+          <div class="small" style="margin-top:6px">
             من: <b style="color:var(--text)">${esc(i.name)}</b> —
             تواصل: <b style="color:var(--text)">${esc(i.contact)}</b><br/>
             وقت: ${new Date(i.at).toLocaleString()}<br/>
@@ -1694,7 +1576,7 @@
           </div>
 
           ${(Array.isArray(i.replies) && i.replies.length) ? `
-            <div class="muted" style="margin-top:10px">
+            <div class="small" style="margin-top:10px">
               <b style="color:var(--text)">آخر رد:</b> ${esc(i.replies[0].msg)}<br/>
               <span style="opacity:.85">${new Date(i.replies[0].at).toLocaleString()}</span>
             </div>
@@ -1707,23 +1589,23 @@
             <button class="btn small" data-i-del="${i.id}">حذف</button>
           </div>
         </div>
-      `).join("") : `<div class="muted">لا يوجد Issues.</div>`;
+      `).join("") : `<div class="small">لا يوجد Issues.</div>`;
 
       issuesList.querySelectorAll("[data-i-set]").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           const id = btn.getAttribute("data-iid");
           const st = btn.getAttribute("data-i-set");
-          const arr = loadJSON(KEY_ISSUES, []);
+          const arr = loadIssues();
           const it = arr.find(x=>x.id===id);
-          if (it){ it.status = st; saveJSON(KEY_ISSUES, arr); renderAll(); }
+          if (it){ it.status = st; saveIssues(arr); renderAll(); }
         });
       });
 
       issuesList.querySelectorAll("[data-i-del]").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           const id = btn.getAttribute("data-i-del");
-          const arr = loadJSON(KEY_ISSUES, []).filter(x=>x.id!==id);
-          saveJSON(KEY_ISSUES, arr);
+          const arr = loadIssues().filter(x=>x.id!==id);
+          saveIssues(arr);
           renderAll();
         });
       });
@@ -1731,17 +1613,17 @@
       issuesList.querySelectorAll("[data-reply]").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           const id = btn.getAttribute("data-reply");
-          const msg = prompt("اكتب الرد:");
+          const msg = prompt("اكتب الرد على الشكوى:");
           if (!msg) return;
 
-          const arr = loadJSON(KEY_ISSUES, []);
+          const arr = loadIssues();
           const it = arr.find(x=>x.id===id);
           if (!it) return;
 
           if (!Array.isArray(it.replies)) it.replies = [];
           it.replies.unshift({ at: new Date().toISOString(), msg: msg.trim() });
           it.status = "done";
-          saveJSON(KEY_ISSUES, arr);
+          saveIssues(arr);
 
           alert("✅ تم حفظ الرد.");
           renderAll();
@@ -1749,76 +1631,78 @@
       });
     }
 
-    // ================== OWNER: PAYMENTS STATUS ==================
-    const payStatusList = document.getElementById("payStatusList");
-    const payStatusChip = document.getElementById("payStatusChip");
-
-    function renderPayStatusOwner(){
-      const methods = loadJSON(KEY_PAY_STATUS, DEFAULT_PAY_METHODS);
-      const enabled = methods.filter(m=>m.enabled).length;
-      payStatusChip.textContent = `Enabled: ${enabled} / ${methods.length}`;
-
-      payStatusList.innerHTML = methods.map(m=>`
-        <div class="item">
-          <div class="itemTop">
-            <div class="itemTitle">${esc(m.title)}</div>
-            <span class="status ${m.enabled ? "s-done" : "s-closed"}">${m.enabled ? "enabled" : "disabled"}</span>
+    // Owner payments status
+    const paymentsAdminList = document.getElementById("paymentsAdminList");
+    function renderPaymentsAdmin(){
+      if(!isOwner()){
+        paymentsAdminList.innerHTML = `<div class="small">لا تملك صلاحية.</div>`;
+        return;
+      }
+      const cfg = loadPaymentsCfg();
+      paymentsAdminList.innerHTML = PAYMENT_METHODS.map(m=>{
+        const on = cfg[m.key] !== false;
+        return `
+          <div class="item">
+            <div class="itemTop">
+              <div class="itemTitle">${esc(m.label)}</div>
+              <span class="status ${on ? "s-done" : "s-closed"}">${on ? "enabled" : "disabled"}</span>
+            </div>
+            <div class="actions">
+              <button class="btn ${on ? "danger" : "ok"} small" data-pay-toggle="${m.key}">
+                ${on ? "Disable" : "Enable"}
+              </button>
+            </div>
           </div>
-          <div class="actions">
-            <button class="btn ${m.enabled ? "danger" : "ok"} small" data-toggle-pay="${esc(m.id)}">
-              ${m.enabled ? "قفل" : "تفعيل"}
-            </button>
-          </div>
-        </div>
-      `).join("");
+        `;
+      }).join("");
 
-      payStatusList.querySelectorAll("[data-toggle-pay]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const id = btn.getAttribute("data-toggle-pay");
-          const arr = loadJSON(KEY_PAY_STATUS, DEFAULT_PAY_METHODS);
-          const it = arr.find(x=>x.id===id);
-          if(!it) return;
-          it.enabled = !it.enabled;
-          saveJSON(KEY_PAY_STATUS, arr);
+      paymentsAdminList.querySelectorAll("[data-pay-toggle]").forEach(b=>{
+        b.onclick=()=>{
+          const key = b.dataset.payToggle;
+          const cfg2 = loadPaymentsCfg();
+          cfg2[key] = !(cfg2[key] !== false); // toggle
+          savePaymentsCfg(cfg2);
           renderAll();
-        });
+        };
       });
     }
 
-    // ================== GLOBAL RENDER ==================
-    function renderAll(){
-      // public
-      renderSellers();
-      renderProofs();
-      renderPaymentsPublic();
-      renderCheckoutPayments();
-      renderShop();
+    // ===== Category selects =====
+    fillCategorySelect(sellerSupCategory);
+    fillCategorySelect(ownSupCategory);
 
-      // role-based
-      if (getRole() === "seller"){
-        renderSellerOrders();
-        renderSellerPending();
-      }
-      if (getRole() === "owner"){
-        renderOwnerSupplies();
-        renderMembers();
-        renderIssues();
-        renderPayStatusOwner();
-      }
+    // ===== Render All =====
+    function renderAll(){
+      renderLoginStatus();
+      buildNav();
+
+      renderSellers();
+      renderPayments();
+      renderShop();
+      renderProofs();
+
+      renderSellerOrders();
+      renderSellerPending();
+
+      renderOwnerSupplies();
+      renderMembers();
+      renderIssues();
+      renderPaymentsAdmin();
     }
 
-    // ================== HASH INIT ==================
-    window.addEventListener("hashchange", ()=> applyRoleUI());
+    // ===== Initial route =====
+    function routeInit(){
+      const hash = (location.hash || "#about").replace("#","");
+      if(pages[hash]) setActivePage(hash);
+      else setActivePage("about");
+    }
 
-    // ================== FIRST LOAD ==================
-    // set default active category
-    const hasSup = loadApprovedSupplies();
-    activeCategory = CATEGORIES[0];
+    // ===== storage sync =====
+    window.addEventListener("storage", ()=> renderAll());
 
-    applyRoleUI();
-
-    // sync across tabs
-    window.addEventListener("storage", ()=> applyRoleUI());
+    // ===== init =====
+    renderAll();
+    routeInit();
   </script>
 </body>
 </html>
